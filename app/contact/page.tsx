@@ -1,3 +1,5 @@
+"use client";
+
 import Navbar from "../components/Navbar";
 import {
   Mail,
@@ -10,9 +12,10 @@ import {
   Code,
   Globe,
   ArrowRight,
-  Send,
+  Database,
 } from "lucide-react";
 import Link from "next/link";
+import ContactForm from "../components/ContactForm";
 
 export default function ContactPage() {
   return (
@@ -71,14 +74,12 @@ export default function ContactPage() {
             {/* Service 1 */}
             <div className="bg-[#1a0b2e] border border-white/10 rounded-2xl p-8 hover:border-purple-500/50 transition-all hover:-translate-y-2 group flex flex-col h-full">
               <div className="w-14 h-14 bg-purple-600/20 rounded-xl flex items-center justify-center text-purple-400 mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                <PenTool size={28} />
+                <Database size={28} />
               </div>
-              <h3 className="text-2xl font-bold mb-4">
-                Product Design (UI/UX)
-              </h3>
+              <h3 className="text-2xl font-bold mb-4">Backend Development</h3>
               <p className="text-white/60 mb-6 leading-relaxed flex-grow">
-                I translate complex requirements into intuitive, beautiful, and
-                functional designs.
+                I build robust, scalable, and secure server-side applications
+                and APIs to power your digital products.
               </p>
               <div className="space-y-4">
                 <h4 className="text-sm font-semibold text-purple-300 uppercase tracking-wider">
@@ -86,16 +87,16 @@ export default function ContactPage() {
                 </h4>
                 <ul className="space-y-2 text-sm text-white/80">
                   <li className="flex items-start gap-2">
-                    <Layers size={16} className="mt-1 text-purple-500" /> UI/UX
-                    Design
+                    <Layers size={16} className="mt-1 text-purple-500" /> API
+                    Development
                   </li>
                   <li className="flex items-start gap-2">
                     <Layers size={16} className="mt-1 text-purple-500" />{" "}
-                    Prototyping
+                    Database Design
                   </li>
                   <li className="flex items-start gap-2">
-                    <Layers size={16} className="mt-1 text-purple-500" /> Design
-                    Systems
+                    <Layers size={16} className="mt-1 text-purple-500" /> System
+                    Architecture
                   </li>
                 </ul>
               </div>
@@ -276,7 +277,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-sm text-white/40">Email</p>
-                      <p className="font-medium">ganderlu.ricchi@example.com</p>
+                      <p className="font-medium">cjonwubuya@gmail.com</p>
                     </div>
                   </div>
 
@@ -286,7 +287,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-sm text-white/40">Phone</p>
-                      <p className="font-medium">+1 123 456 7890</p>
+                      <p className="font-medium">+234 906 120 7212</p>
                     </div>
                   </div>
 
@@ -296,84 +297,13 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-sm text-white/40">Location</p>
-                      <p className="font-medium">San Francisco, CA</p>
+                      <p className="font-medium">Anambra, Nigeria</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <form className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="name"
-                      className="text-sm font-medium text-white/80"
-                    >
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
-                      placeholder="John Doe"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label
-                      htmlFor="email"
-                      className="text-sm font-medium text-white/80"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label
-                    htmlFor="subject"
-                    className="text-sm font-medium text-white/80"
-                  >
-                    Subject
-                  </label>
-                  <select
-                    id="subject"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors text-white/60"
-                  >
-                    <option>General Inquiry</option>
-                    <option>Project Proposal</option>
-                    <option>Freelance Opportunity</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label
-                    htmlFor="message"
-                    className="text-sm font-medium text-white/80"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    rows={4}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-purple-500 transition-colors"
-                    placeholder="Tell me about your project..."
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-4 rounded-xl transition-all transform hover:-translate-y-1 shadow-lg shadow-purple-600/20 flex items-center justify-center gap-2"
-                >
-                  Send Message <Send size={18} />
-                </button>
-              </form>
+              <ContactForm />
             </div>
           </div>
         </div>

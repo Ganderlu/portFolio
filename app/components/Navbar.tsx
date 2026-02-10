@@ -36,7 +36,10 @@ export default function Navbar() {
           <Link href="/about" className="hover:text-white transition-colors">
             About
           </Link>
-          <Link href="/portfolio" className="hover:text-white transition-colors">
+          <Link
+            href="/portfolio"
+            className="hover:text-white transition-colors"
+          >
             Portfolio
           </Link>
           <Link href="/#blog" className="hover:text-white transition-colors">
@@ -49,7 +52,7 @@ export default function Navbar() {
 
         {/* Desktop CTA Button */}
         <Link
-          href="/contact"
+          href="/hire-me"
           className="hidden md:flex items-center gap-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] px-6 py-2.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/30"
         >
           Hire Me <ArrowRight size={16} />
@@ -103,9 +106,9 @@ export default function Navbar() {
           >
             Contact
           </Link>
-          
+
           <Link
-            href="/contact"
+            href="/hire-me"
             className="flex items-center gap-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] px-8 py-3 rounded-full text-lg font-medium hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/30 mt-4"
             onClick={closeMenu}
           >

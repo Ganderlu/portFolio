@@ -1,13 +1,13 @@
 import {
   Mail,
   Phone,
-  Send,
   Linkedin,
   Dribbble,
   Github,
   Twitter,
   MapPin,
 } from "lucide-react";
+import ContactForm from "./ContactForm";
 
 export default function Contact() {
   return (
@@ -60,9 +60,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-blue-200 mb-1">Email Me</p>
-                <p className="font-medium text-lg">
-                  ganderlu.ricchi@example.com
-                </p>
+                <p className="font-medium text-lg">cjonwubuya@gmail.com</p>
               </div>
             </div>
 
@@ -88,42 +86,7 @@ export default function Contact() {
           </div>
 
           <div className="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl shadow-xl">
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-blue-100">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    placeholder="Your Name"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-blue-100">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    placeholder="Your Email"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-blue-100">
-                  Message
-                </label>
-                <textarea
-                  className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all min-h-[120px]"
-                  placeholder="Tell me about your project..."
-                ></textarea>
-              </div>
-              <button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-4 rounded-lg transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 transform hover:-translate-y-1">
-                Send Message <Send size={18} />
-              </button>
-            </form>
+            <ContactForm />
           </div>
         </div>
 
