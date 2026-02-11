@@ -12,10 +12,11 @@ export default function About() {
             </h2>
             <div className="w-20 h-1 bg-blue-600 mb-6 rounded-full"></div>
             <p className="text-gray-600 leading-relaxed text-lg mb-6">
-              I'm a passionate designer and developer with a knack for creating
-              beautiful and functional websites and applications. I blend
-              creativity with technical expertise to deliver results that exceed
-              expectations.
+              Onwubuya Chuka Patrick known as Ganderlu is a software developer and technology
+              entrepreneur with a strong focus on building scalable,
+              user-centered digital products. He is the founder of IBIRD Team, a
+              technology-driven company committed to delivering modern web
+              solutions and innovative digital services.
             </p>
             <p className="text-gray-600 leading-relaxed text-lg">
               With a strong foundation in both design principles and modern
@@ -26,19 +27,19 @@ export default function About() {
 
           <div className="grid grid-cols-3 gap-8 pt-6 border-t border-gray-100">
             <div className="text-left">
-              <h4 className="text-4xl font-bold text-gray-900 mb-1">8+</h4>
+              <h4 className="text-4xl font-bold text-gray-900 mb-1">5+</h4>
               <p className="text-gray-500 text-sm font-medium">
                 Years Experience
               </p>
             </div>
             <div className="text-left">
-              <h4 className="text-4xl font-bold text-gray-900 mb-1">120+</h4>
+              <h4 className="text-4xl font-bold text-gray-900 mb-1">10+</h4>
               <p className="text-gray-500 text-sm font-medium">
                 Projects Completed
               </p>
             </div>
             <div className="text-left">
-              <h4 className="text-4xl font-bold text-gray-900 mb-1">95+</h4>
+              <h4 className="text-4xl font-bold text-gray-900 mb-1">10+</h4>
               <p className="text-gray-500 text-sm font-medium">Happy Clients</p>
             </div>
           </div>
@@ -52,7 +53,7 @@ export default function About() {
 
             <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-gray-200">
               {/* Simulated Image */}
-              <div className="absolute inset-0 bg-[url('/gander.jpg')] bg-cover bg-center hover:scale-105 transition-transform duration-700"></div>
+              <div className="absolute inset-0 bg-[url('/ibird.jpg')] bg-cover bg-center hover:scale-105 transition-transform duration-700"></div>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Linkedin, Dribbble, Github, Twitter, ChevronDown } from "lucide-react";
+import { Linkedin, Dribbble, Github, Twitter, Facebook,  ChevronDown } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -65,6 +65,12 @@ export default function Hero() {
               className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
             >
               <Twitter size={24} />
+            </a>
+            <a
+              href="#"
+              className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+            >
+              <Facebook size={24} />
             </a>
           </div>
         </div>
