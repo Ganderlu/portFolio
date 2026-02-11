@@ -12,11 +12,11 @@ export default function About() {
             </h2>
             <div className="w-20 h-1 bg-blue-600 mb-6 rounded-full"></div>
             <p className="text-gray-600 leading-relaxed text-lg mb-6">
-              Onwubuya Chuka Patrick known as Ganderlu is a software developer and technology
-              entrepreneur with a strong focus on building scalable,
-              user-centered digital products. He is the founder of IBIRD Team, a
-              technology-driven company committed to delivering modern web
-              solutions and innovative digital services.
+              Onwubuya Chuka Patrick known as Ganderlu is a software developer
+              and technology entrepreneur with a strong focus on building
+              scalable, user-centered digital products. He is the founder of
+              IBIRD Team, a technology-driven company committed to delivering
+              modern web solutions and innovative digital services.
             </p>
             <p className="text-gray-600 leading-relaxed text-lg">
               With a strong foundation in both design principles and modern

@@ -3,6 +3,7 @@
 import Navbar from "../components/Navbar";
 import Contact from "../components/Contact";
 import { useState } from "react";
+import Image from "next/image";
 import {
   ArrowUpRight,
   ExternalLink,
@@ -17,18 +18,45 @@ import {
 const projects = [
   {
     id: 1,
-    title: "Luxe E-commerce Platform",
+    title: "LetsConnet",
     category: "Web Design",
     description:
-      "A premium shopping experience built for a high-end fashion brand. Features include real-time inventory tracking, AI-powered recommendations, and a seamless checkout process.",
-    tags: ["Next.js", "Shopify", "Tailwind CSS"],
-    image: "bg-gradient-to-br from-blue-600 to-cyan-500",
+      "A dynamic e-commerce platform designed to connect buyers and sellers seamlessly. Features include secure payment integration, real-time messaging, and a user-friendly interface.",
+    tags: ["Next.js", "React", "Tailwind CSS"],
+    image: "bg-gradient-to-br from-indigo-500 to-purple-600",
     icon: Globe,
-    link: "#",
+    link: "https://letsconnet.com/",
+    imageSrc: "/Letsconnet.png", 
     github: "#",
   },
   {
     id: 2,
+    title: "Rolfsq Investment Platform",
+    category: "Web Design",
+    description:
+      "A premium shopping and investment experience built for high-end clients. Features include real-time inventory tracking and a seamless checkout process.",
+    tags: ["Next.js", "Shopify", "Tailwind CSS"],
+    image: "bg-gradient-to-br from-blue-600 to-cyan-500",
+    icon: Globe,
+    link: "https://rolfsq-bmel.vercel.app/",
+    imageSrc: "/Rolfsq.png",
+    github: "#",
+  },
+  {
+    id: 3,
+    title: "Taskmate-Ai Website",
+    category: "Web Design",
+    description:
+      "An AI-powered task management tool designed to boost productivity. Features intelligent task prioritization and seamless collaboration tools.",
+    tags: ["Next.js", "AI Integration", "Tailwind CSS"],
+    image: "bg-gradient-to-br from-emerald-500 to-green-500",
+    icon: Zap,
+    link: "https://taskmate-n795.vercel.app/",
+    imageSrc: "/Taskmate.png",
+    github: "#",
+  },
+  {
+    id: 4,
     title: "HealthTrack Mobile App",
     category: "App Design",
     description:
@@ -40,49 +68,13 @@ const projects = [
     github: "#",
   },
   {
-    id: 3,
+    id: 5,
     title: "TechCorp Rebranding",
     category: "Branding",
     description:
       "Complete visual identity overhaul for a leading tech consultancy. Included logo design, brand guidelines, stationery, and digital assets.",
     tags: ["Adobe Illustrator", "Figma", "Brand Strategy"],
     image: "bg-gradient-to-br from-orange-500 to-red-500",
-    icon: Layers,
-    link: "#",
-    github: "#",
-  },
-  {
-    id: 4,
-    title: "FinDash Dashboard",
-    category: "Web Design",
-    description:
-      "An intuitive financial dashboard for enterprise clients to visualize complex data streams. Optimized for performance and data density.",
-    tags: ["Vue.js", "D3.js", "Sass"],
-    image: "bg-gradient-to-br from-emerald-500 to-teal-500",
-    icon: Zap,
-    link: "#",
-    github: "#",
-  },
-  {
-    id: 5,
-    title: "SocialConnect App",
-    category: "App Design",
-    description:
-      "A social networking platform focused on professional communities. Features include real-time messaging, event management, and job boards.",
-    tags: ["Flutter", "GraphQL", "AWS"],
-    image: "bg-gradient-to-br from-indigo-500 to-violet-500",
-    icon: Smartphone,
-    link: "#",
-    github: "#",
-  },
-  {
-    id: 6,
-    title: "EcoLiving Brand Identity",
-    category: "Branding",
-    description:
-      "Sustainable lifestyle brand identity focused on earth tones and organic shapes. Packaging design and marketing collateral for product launch.",
-    tags: ["Photoshop", "Packaging", "Eco-Design"],
-    image: "bg-gradient-to-br from-lime-500 to-green-600",
     icon: Layers,
     link: "#",
     github: "#",
@@ -125,12 +117,13 @@ export default function PortfolioPage() {
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="w-full md:w-1/2">
               <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl group cursor-pointer">
-                <div className="absolute inset-0 bg-gradient-to-tr from-purple-600 to-blue-600 group-hover:scale-105 transition-transform duration-700"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white text-9xl font-bold opacity-20">
-                    01
-                  </span>
-                </div>
+                <Image
+                  src="/Letsconnet.png"
+                  alt="LetsConnet"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-700"></div>
               </div>
             </div>
             <div className="w-full md:w-1/2 space-y-6">
@@ -138,31 +131,34 @@ export default function PortfolioPage() {
                 <Zap size={14} /> Featured Project
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                NeonVerse Dashboard
+                LetsConnet
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed">
-                A futuristic analytics platform designed for Web3 applications.
-                This project involved complex data visualization, real-time
-                socket connections, and a highly interactive UI built with
-                Three.js.
+                A dynamic e-commerce platform designed to connect buyers and
+                sellers seamlessly. Features include secure payment integration,
+                real-time messaging, and a user-friendly interface.
               </p>
               <div className="flex flex-wrap gap-2">
-                {["React", "Three.js", "WebSockets", "Node.js"].map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 bg-white/10 rounded-md text-sm text-gray-300"
-                  >
-                    {tag}
-                  </span>
-                ))}
+                {["Next.js", "React", "Tailwind CSS", "E-commerce"].map(
+                  (tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 bg-white/10 rounded-md text-sm text-gray-300"
+                    >
+                      {tag}
+                    </span>
+                  )
+                )}
               </div>
               <div className="pt-4 flex gap-4">
-                <button className="flex items-center gap-2 bg-white text-[#1a0b2e] px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors">
-                  View Case Study <ArrowUpRight size={18} />
-                </button>
-                <button className="flex items-center gap-2 px-6 py-3 rounded-lg font-bold text-white border border-white/20 hover:bg-white/10 transition-colors">
-                  <Github size={18} /> Source Code
-                </button>
+                <a
+                  href="https://letsconnet.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 bg-white text-[#1a0b2e] px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors"
+                >
+                  Visit Website <ArrowUpRight size={18} />
+                </a>
               </div>
             </div>
           </div>
@@ -200,8 +196,17 @@ export default function PortfolioPage() {
               <div
                 className={`aspect-[5/3] w-full ${project.image} relative overflow-hidden`}
               >
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors"></div>
-                <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md p-2 rounded-lg text-white/80">
+                {project.imageSrc ? (
+                  <Image
+                    src={project.imageSrc}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors"></div>
+                )}
+                <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md p-2 rounded-lg text-white/80 z-10">
                   <project.icon size={20} />
                 </div>
               </div>

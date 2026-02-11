@@ -1,25 +1,42 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
-const projects = [
+// Define interface for project structure
+interface Project {
+  id: number;
+  title: string;
+  category: string;
+  image: string;
+  link?: string;
+  imageSrc?: string;
+}
+
+const projects: Project[] = [
   {
     id: 1,
-    title: "E-commerce Website",
+    title: "LetsConnet",
     category: "Web Design",
-    image: "bg-gradient-to-br from-blue-500 to-cyan-500",
+    image: "bg-gradient-to-br from-indigo-500 to-purple-600",
+    link: "https://letsconnet.com/",
+    imageSrc: "/Letsconnet.png",
   },
   {
     id: 2,
-    title: "Mobile App UI",
-    category: "App Design",
-    image: "bg-gradient-to-br from-purple-500 to-pink-500",
+    title: "Rolfsq Website",
+    category: "Web Design",
+    image: "bg-gradient-to-br from-blue-500 to-cyan-500",
+    link: "https://rolfsq-bmel.vercel.app/",
+    imageSrc: "/Rolfsq.png",
   },
   {
     id: 3,
-    title: "Corporate Branding",
-    category: "Branding",
-    image: "bg-gradient-to-br from-orange-500 to-red-500",
+    title: "Taskmate-Ai Website",
+    category: "Web Design",
+    image: "bg-gradient-to-br from-emerald-500 to-green-500",
+    link: "https://taskmate-n795.vercel.app/",
+    imageSrc: "/Taskmate.png",
   },
 ];
 
@@ -96,11 +113,21 @@ export default function Portfolio() {
               <div
                 className={`aspect-[4/3] w-full ${project.image} relative overflow-hidden`}
               >
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
-                {/* Placeholder Content */}
-                <div className="absolute inset-0 flex items-center justify-center text-white text-4xl font-bold opacity-30">
-                  {project.category.split(" ")[0]}
-                </div>
+                {project.imageSrc ? (
+                  <Image
+                    src={project.imageSrc}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+                    <div className="absolute inset-0 flex items-center justify-center text-white text-4xl font-bold opacity-30">
+                      {project.category.split(" ")[0]}
+                    </div>
+                  </>
+                )}
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-white mb-1">
@@ -109,7 +136,15 @@ export default function Portfolio() {
                 <p className="text-white/70 text-sm mb-4">{project.category}</p>
 
                 <a
-                  href="#"
+                  href={project.link || "#"}
+                  target={
+                    project.link?.startsWith("http") ? "_blank" : undefined
+                  }
+                  rel={
+                    project.link?.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
                   className="inline-flex items-center gap-1 text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors group-hover:translate-x-1 duration-300"
                 >
                   View Details <span>&rarr;</span>

@@ -1,5 +1,12 @@
 import Image from "next/image";
-import { Linkedin, Dribbble, Github, Twitter, Facebook,  ChevronDown } from "lucide-react";
+import {
+  Linkedin,
+  Dribbble,
+  Github,
+  Twitter,
+  Facebook,
+  ChevronDown,
+} from "lucide-react";
 
 export default function Hero() {
   return (
@@ -43,34 +50,54 @@ export default function Hero() {
 
           <div className="flex items-center gap-6 pt-4">
             <a
-              href="#"
+              href="https://www.linkedin.com/in/ibird"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
             >
               <Linkedin size={24} />
             </a>
-            <a
-              href="#"
+            {/* <a
+              href="https://dribbble.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
             >
               <Dribbble size={24} />
-            </a>
+            </a> */}
             <a
-              href="#"
+              href="https://github.com/Ganderlu"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
             >
               <Github size={24} />
             </a>
             <a
-              href="#"
+              href="https://twitter.com/Ganderlu"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
             >
               <Twitter size={24} />
             </a>
             <a
-              href="#"
+              href="https://facebook.com/Ganderlu"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
             >
               <Facebook size={24} />
+            </a>
+            <a
+              href="https://letsconnet.com/feeds"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+              title="LetsConnet"
+            >
+              {/* Custom icon for LetsConnet - using a Globe for now as placeholder */}
+              <div className="w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-bold">LC</div>
             </a>
           </div>
         </div>
