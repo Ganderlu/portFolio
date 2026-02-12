@@ -71,26 +71,57 @@ export default function Navbar() {
         </div>
 
         {/* Desktop CTA Button */}
-        <Link
-          href="/hire-me"
-          className="hidden md:flex items-center gap-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] px-6 py-2.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/30"
-        >
-          Hire Me <ArrowRight size={16} />
-        </Link>
+        <div className="hidden md:flex items-center gap-6">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 rounded-full border border-green-500/20">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-xs font-medium text-green-400">
+              Available for work
+            </span>
+          </div>
+          <Link
+            href="/hire-me"
+            className="flex items-center gap-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] px-6 py-2.5 rounded-full text-sm font-medium hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/30"
+          >
+            Hire Me <ArrowRight size={16} />
+          </Link>
+        </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden relative z-50 p-2 text-white/90 hover:text-white transition-colors"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="md:hidden flex flex-col items-end gap-1 relative z-50">
+          <button
+            className="p-2 text-white/90 hover:text-white transition-colors"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+          {!isMenuOpen && (
+            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-green-500/10 rounded-full border border-green-500/20 mr-1">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+              </span>
+              <span className="text-[10px] font-medium text-green-400">Available for work</span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="fixed inset-0 bg-[#0f0518] z-40 flex flex-col items-center justify-start pt-32 pb-10 px-6 space-y-8 md:hidden animate-fade-in overflow-y-auto h-screen">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 rounded-full border border-green-500/20">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-xs font-medium text-green-400">
+              Available for work
+            </span>
+          </div>
           <Link
             href="/"
             className="text-2xl font-medium text-white/90 hover:text-white transition-colors"

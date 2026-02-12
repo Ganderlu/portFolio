@@ -1,37 +1,45 @@
-import { Monitor, Smartphone, PenTool, Layout } from "lucide-react";
+import {
+  Monitor,
+  Smartphone,
+  Server,
+  Mail
+} from "lucide-react";
 
 const skills = [
-  {
-    title: "UI/UX Design",
-    icon: Layout,
-    desc: "Creating intuitive and engaging user interfaces that delight users and solve complex problems.",
-    color: "text-purple-600",
-    bg: "bg-purple-50",
-    border: "group-hover:border-purple-200",
-  },
-  {
-    title: "Web Development",
+   {
+    title: "Frontend Engineering",
     icon: Monitor,
-    desc: "Building fast, responsive, and accessible websites using modern frameworks and best practices.",
+    desc: "Building scalable, high-performance user interfaces using React, Next.js, and modern JavaScript patterns.",
     color: "text-blue-600",
     bg: "bg-blue-50",
     border: "group-hover:border-blue-200",
   },
+
   {
-    title: "Mobile Apps",
+    title: "Backend & Firebase",
+    icon: Server,
+    desc: "Designing secure back-end systems with Firebase, Firestore, Authentication, and cloud-based logic.",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
+    border: "group-hover:border-emerald-200",
+  },
+
+  {
+    title: "Email Systems & Automation",
+    icon: Mail,
+    desc: "Implementing SMTP-based email systems, transactional emails, and marketing templates with automation.",
+    color: "text-purple-600",
+    bg: "bg-purple-50",
+    border: "group-hover:border-purple-200",
+  },
+
+  {
+    title: "Mobile & Responsive Apps",
     icon: Smartphone,
-    desc: "Developing cross-platform mobile applications that provide seamless experiences on all devices.",
+    desc: "Developing responsive, mobile-first web applications that deliver consistent experiences across devices.",
     color: "text-indigo-600",
     bg: "bg-indigo-50",
     border: "group-hover:border-indigo-200",
-  },
-  {
-    title: "Graphic Design",
-    icon: PenTool,
-    desc: "Crafting unique visual identities, logos, and branding materials that stand out.",
-    color: "text-teal-600",
-    bg: "bg-teal-50",
-    border: "group-hover:border-teal-200",
   },
 ];
 

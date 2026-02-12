@@ -70,7 +70,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-blue-200 mb-1">Call Me</p>
-                <p className="font-medium text-lg">+1 123 456 7890</p>
+                <p className="font-medium text-lg">+234 906 120 7212</p>
               </div>
             </div>
 
@@ -80,7 +80,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-blue-200 mb-1">Location</p>
-                <p className="font-medium text-lg">San Francisco, CA</p>
+                <p className="font-medium text-lg">Anambra, Nigeria</p>
               </div>
             </div>
           </div>
@@ -91,8 +91,8 @@ export default function Contact() {
         </div>
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-blue-200/40">
-          <p>&copy; 2024 Ganderlu Ricchi. All Rights Reserved.</p>
-          <div className="flex items-center gap-6">
+          <p>&copy; 2026 Ganderlu Ricchi. All Rights Reserved.</p>
+          {/* <div className="flex items-center gap-6">
             <a
               href="#"
               className="hover:text-white transition-colors hover:scale-110"
@@ -117,7 +117,7 @@ export default function Contact() {
             >
               <Twitter size={20} />
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
