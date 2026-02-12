@@ -22,6 +22,8 @@ export const metadata: Metadata = {
   description: "Creative Designer & Developer Portfolio",
 };
 
+import MobileSocialFooter from "./components/MobileSocialFooter";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,6 +35,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased`}
       >
         {children}
+        <MobileSocialFooter />
       </body>
     </html>
   );

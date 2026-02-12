@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   Linkedin,
   Dribbble,
@@ -7,6 +8,54 @@ import {
   Facebook,
   ChevronDown,
 } from "lucide-react";
+
+const SocialLinks = ({ className = "" }: { className?: string }) => (
+  <div className={className}>
+    <a
+      href="https://www.linkedin.com/in/ibird"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+    >
+      <Linkedin size={24} />
+    </a>
+    <a
+      href="https://github.com/Ganderlu"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+    >
+      <Github size={24} />
+    </a>
+    <a
+      href="https://twitter.com/Ganderlu"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+    >
+      <Twitter size={24} />
+    </a>
+    <a
+      href="https://facebook.com/Ganderlu"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+    >
+      <Facebook size={24} />
+    </a>
+    <a
+      href="https://letsconnet.com/feeds"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+      title="LetsConnet"
+    >
+      <div className="w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-bold">
+        LC
+      </div>
+    </a>
+  </div>
+);
 
 export default function Hero() {
   return (
@@ -40,66 +89,21 @@ export default function Hero() {
           </div>
 
           <div className="flex flex-wrap gap-4">
-            <button className="bg-[#3b82f6] hover:bg-[#2563eb] text-white px-8 py-3.5 rounded-lg font-medium transition-all shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:-translate-y-1">
+            <Link
+              href="/portfolio"
+              className="bg-[#3b82f6] hover:bg-[#2563eb] text-white px-8 py-3.5 rounded-lg font-medium transition-all shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:-translate-y-1"
+            >
               View My Work
-            </button>
-            <button className="bg-white/5 border border-white/10 hover:bg-white/10 text-white px-8 py-3.5 rounded-lg font-medium transition-all flex items-center gap-2 backdrop-blur-sm hover:-translate-y-1">
+            </Link>
+            <Link
+              href="/contact"
+              className="bg-white/5 border border-white/10 hover:bg-white/10 text-white px-8 py-3.5 rounded-lg font-medium transition-all flex items-center gap-2 backdrop-blur-sm hover:-translate-y-1"
+            >
               Contact Me <ChevronDown size={18} />
-            </button>
+            </Link>
           </div>
 
-          <div className="flex items-center gap-6 pt-4">
-            <a
-              href="https://www.linkedin.com/in/ibird"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-            >
-              <Linkedin size={24} />
-            </a>
-            {/* <a
-              href="https://dribbble.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-            >
-              <Dribbble size={24} />
-            </a> */}
-            <a
-              href="https://github.com/Ganderlu"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-            >
-              <Github size={24} />
-            </a>
-            <a
-              href="https://twitter.com/Ganderlu"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-            >
-              <Twitter size={24} />
-            </a>
-            <a
-              href="https://facebook.com/Ganderlu"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-            >
-              <Facebook size={24} />
-            </a>
-            <a
-              href="https://letsconnet.com/feeds"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-              title="LetsConnet"
-            >
-              {/* Custom icon for LetsConnet - using a Globe for now as placeholder */}
-              <div className="w-6 h-6 rounded-full border border-current flex items-center justify-center text-[10px] font-bold">LC</div>
-            </a>
-          </div>
+          <SocialLinks className="hidden md:flex items-center gap-6 pt-4" />
         </div>
 
         <div className="relative z-10 flex justify-center md:justify-end">

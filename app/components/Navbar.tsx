@@ -2,10 +2,24 @@
 
 import Link from "next/link";
 import { ArrowRight, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -16,8 +30,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="absolute top-0 left-0 w-full z-50 px-6 py-6 text-white max-w-7xl mx-auto right-0">
-      <div className="flex items-center justify-between">
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-[#0f0518]/80 backdrop-blur-md py-4 shadow-lg"
+          : "bg-transparent py-6"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between text-white">
         {/* Logo */}
         <div className="text-2xl font-bold flex items-center relative z-50">
           <Link href="/" className="flex items-center" onClick={closeMenu}>
@@ -70,7 +90,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-[#0f0518] z-40 flex flex-col items-center justify-center space-y-8 md:hidden animate-fade-in">
+        <div className="fixed inset-0 bg-[#0f0518] z-40 flex flex-col items-center justify-start pt-32 pb-10 px-6 space-y-8 md:hidden animate-fade-in overflow-y-auto h-screen">
           <Link
             href="/"
             className="text-2xl font-medium text-white/90 hover:text-white transition-colors"
@@ -109,7 +129,7 @@ export default function Navbar() {
 
           <Link
             href="/hire-me"
-            className="flex items-center gap-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] px-8 py-3 rounded-full text-lg font-medium hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/30 mt-4"
+            className="flex items-center gap-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] px-8 py-3 rounded-full text-lg font-medium hover:opacity-90 transition-opacity shadow-lg shadow-purple-500/30 mt-4 mb-8"
             onClick={closeMenu}
           >
             Hire Me <ArrowRight size={20} />
