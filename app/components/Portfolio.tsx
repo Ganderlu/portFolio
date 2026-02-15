@@ -38,6 +38,22 @@ const projects: Project[] = [
     link: "https://taskmate-n795.vercel.app/",
     imageSrc: "/Taskmate.png",
   },
+  {
+    id: 4,
+    title: "Construction Website",
+    category: "Web Design",
+    image: "bg-gradient-to-br from-emerald-500 to-green-500",
+    link: "https://zcc-construction.vercel.app/",
+    imageSrc: "/zanders.png",
+  },
+  {
+    id: 5,
+    title: "Real Estate Website",
+    category: "Web Design",
+    image: "bg-gradient-to-br from-emerald-500 to-green-500",
+    link: "https://dream-homes-smoky.vercel.app/",
+    imageSrc: "/realState.png",
+  },
 ];
 
 export default function Portfolio() {

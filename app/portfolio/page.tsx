@@ -26,7 +26,7 @@ const projects = [
     image: "bg-gradient-to-br from-indigo-500 to-purple-600",
     icon: Globe,
     link: "https://letsconnet.com/",
-    imageSrc: "/Letsconnet.png", 
+    imageSrc: "/Letsconnet.png",
     github: "#",
   },
   {
@@ -57,26 +57,28 @@ const projects = [
   },
   {
     id: 4,
-    title: "HealthTrack Mobile App",
-    category: "App Design",
+    title: "Construction Website",
+    category: "Web Design",
     description:
-      "A comprehensive health monitoring application that connects with wearable devices to track vitals, sleep patterns, and daily activity. Designed with accessibility in mind.",
-    tags: ["React Native", "Firebase", "HealthKit"],
+      "A modern website crafted for a forward-thinking construction company. It highlights core services, showcases completed projects with strong visuals, and makes it easy for property owners and developers to request quotes or consultations from any device.",
+    tags: ["Next.js", "Tailwind CSS", "Responsive Design"],
     image: "bg-gradient-to-br from-purple-600 to-pink-500",
     icon: Smartphone,
-    link: "#",
+    link: "https://zcc-construction.vercel.app/",
+    imageSrc: "/zanders.png",
     github: "#",
   },
   {
     id: 5,
-    title: "TechCorp Rebranding",
-    category: "Branding",
+    title: "Real Estate Website",
+    category: "Web Design",
     description:
       "Complete visual identity overhaul for a leading tech consultancy. Included logo design, brand guidelines, stationery, and digital assets.",
     tags: ["Adobe Illustrator", "Figma", "Brand Strategy"],
     image: "bg-gradient-to-br from-orange-500 to-red-500",
     icon: Layers,
-    link: "#",
+    link: "https://dream-homes-smoky.vercel.app/",
+    imageSrc: "/realState.png",
     github: "#",
   },
 ];
@@ -147,7 +149,7 @@ export default function PortfolioPage() {
                     >
                       {tag}
                     </span>
-                  )
+                  ),
                 )}
               </div>
               <div className="pt-4 flex gap-4">
@@ -170,15 +172,15 @@ export default function PortfolioPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
           <h2 className="text-3xl font-bold text-white">All Projects</h2>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 bg-white/5 p-1.5 rounded-full border border-white/10">
             {["All", "Web Design", "App Design", "Branding"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
+                className={`px-5 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
                   activeTab === tab
-                    ? "bg-white text-purple-900 border-white"
-                    : "bg-transparent text-gray-400 border-gray-700 hover:text-white hover:border-white/50"
+                    ? "bg-white text-[#1a0b2e] shadow-md shadow-blue-500/30"
+                    : "bg-transparent text-gray-300 hover:text-white hover:bg-white/10"
                 }`}
               >
                 {tab}
@@ -191,7 +193,7 @@ export default function PortfolioPage() {
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-colors duration-300 flex flex-col h-full"
+              className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col h-full shadow-lg shadow-black/30 hover:shadow-2xl hover:-translate-y-2 hover:bg-white/10 transition-all duration-300"
             >
               <div
                 className={`aspect-[5/3] w-full ${project.image} relative overflow-hidden`}
@@ -250,7 +252,6 @@ export default function PortfolioPage() {
       </section>
 
       <Contact />
-
     </main>
   );
 }
