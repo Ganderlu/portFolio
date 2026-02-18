@@ -47,7 +47,7 @@ const SocialLinks = ({ className = "" }: { className?: string }) => (
       <WhatsAppIcon size={24} />
     </a>
     <a
-      href="https://www.linkedin.com/in/ibird"
+      href="https://www.linkedin.com/in/chuka-onwubuya-4674b9163"
       target="_blank"
       rel="noopener noreferrer"
       className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
@@ -122,10 +122,10 @@ export default function Hero() {
               Hello, I'm
             </h2>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight leading-tight">
-              Ganderlu
+              Chuka Onwubuya
             </h1>
             <h3 className="text-2xl md:text-3xl text-blue-200 font-semibold mb-6">
-              Creative Designer & Developer
+              Fullstack Developer & QA Engineer
             </h3>
             <p className="text-white/60 max-w-lg text-lg leading-relaxed">
               I design and build amazing digital experiences.
