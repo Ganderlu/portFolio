@@ -22,14 +22,14 @@ const projects: Project[] = [
     link: "https://letsconnet.com/",
     imageSrc: "/Letsconnet.png",
   },
-  {
-    id: 2,
-    title: "Rolfsq Website",
-    category: "Web Design",
-    image: "bg-gradient-to-br from-blue-500 to-cyan-500",
-    link: "https://rolfsq-bmel.vercel.app/",
-    imageSrc: "/Rolfsq.png",
-  },
+  // {
+  //   id: 2,
+  //   title: "Rolfsq Website",
+  //   category: "Web Design",
+  //   image: "bg-gradient-to-br from-blue-500 to-cyan-500",
+  //   link: "https://rolfsq-bmel.vercel.app/",
+  //   imageSrc: "/Rolfsq.png",
+  // },
   {
     id: 3,
     title: "Taskmate-Ai Website",

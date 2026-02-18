@@ -29,19 +29,19 @@ const projects = [
     imageSrc: "/Letsconnet.png",
     github: "#",
   },
-  {
-    id: 2,
-    title: "Rolfsq Investment Platform",
-    category: "Web Design",
-    description:
-      "A premium shopping and investment experience built for high-end clients. Features include real-time inventory tracking and a seamless checkout process.",
-    tags: ["Next.js", "Shopify", "Tailwind CSS"],
-    image: "bg-gradient-to-br from-blue-600 to-cyan-500",
-    icon: Globe,
-    link: "https://rolfsq-bmel.vercel.app/",
-    imageSrc: "/Rolfsq.png",
-    github: "#",
-  },
+  // {
+  //   id: 2,
+  //   title: "Rolfsq Investment Platform",
+  //   category: "Web Design",
+  //   description:
+  //     "A premium shopping and investment experience built for high-end clients. Features include real-time inventory tracking and a seamless checkout process.",
+  //   tags: ["Next.js", "Shopify", "Tailwind CSS"],
+  //   image: "bg-gradient-to-br from-blue-600 to-cyan-500",
+  //   icon: Globe,
+  //   link: "https://rolfsq-bmel.vercel.app/",
+  //   imageSrc: "/Rolfsq.png",
+  //   github: "#",
+  // },
   {
     id: 3,
     title: "Taskmate-Ai Website",
