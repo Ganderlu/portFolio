@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 };
 
 import MobileSocialFooter from "./components/MobileSocialFooter";
+import AnalyticsTracker from "./components/analytics/AnalyticsTracker";
 
 export default function RootLayout({
   children,
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased`}
       >
+        <AnalyticsTracker />
         {children}
         <MobileSocialFooter />
       </body>

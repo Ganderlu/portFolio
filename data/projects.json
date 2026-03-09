@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "title": "LetsConnet",
+    "category": "Web Design",
+    "description": "A dynamic e-commerce platform designed to connect buyers and sellers seamlessly. Features include secure payment integration, real-time messaging, and a user-friendly interface.",
+    "tags": [
+      "Next.js",
+      "React",
+      "Tailwind CSS"
+    ],
+    "image": "bg-gradient-to-br from-indigo-500 to-purple-600",
+    "icon": "Globe",
+    "link": "https://letsconnet.com/",
+    "imageSrc": "/Letsconnet.png",
+    "github": "#",
+    "status": "Published",
+    "date": "2024-03-01"
+  },
+  {
+    "id": 2,
+    "title": "Rolfsq Investment Platform",
+    "category": "Web Design",
+    "description": "A modern real estate and investment platform that showcases premium properties, projected returns, and clear calls-to-action for serious investors. Designed to build trust, highlight key figures at a glance, and make it effortless for users to explore opportunities and get in touch from any device.",
+    "tags": [
+      "Next.js",
+      "Shopify",
+      "Tailwind CSS"
+    ],
+    "image": "bg-gradient-to-br from-blue-600 to-cyan-500",
+    "icon": "Globe",
+    "link": "https://rolfsq-bmel.vercel.app/",
+    "imageSrc": "/Rolfsq.png",
+    "github": "#",
+    "status": "Published",
+    "date": "2024-02-15"
+  },
+  {
+    "id": 3,
+    "title": "Taskmate-Ai Website",
+    "category": "Web Design",
+    "description": "An AI-powered task management tool designed to boost productivity. Features intelligent task prioritization and seamless collaboration tools.",
+    "tags": [
+      "Next.js",
+      "AI Integration",
+      "Tailwind CSS"
+    ],
+    "image": "bg-gradient-to-br from-emerald-500 to-green-500",
+    "icon": "Zap",
+    "link": "https://taskmate-n795.vercel.app/",
+    "imageSrc": "/Taskmate.png",
+    "github": "#",
+    "status": "Published",
+    "date": "2024-01-20"
+  },
+  {
+    "id": 4,
+    "title": "Construction Website",
+    "category": "Web Design",
+    "description": "A modern website crafted for a forward-thinking construction company. It highlights core services, showcases completed projects with strong visuals, and makes it easy for property owners and developers to request quotes or consultations from any device.",
+    "tags": [
+      "Next.js",
+      "Tailwind CSS",
+      "Responsive Design"
+    ],
+    "image": "bg-gradient-to-br from-purple-600 to-pink-500",
+    "icon": "Smartphone",
+    "link": "https://zcc-construction.vercel.app/",
+    "imageSrc": "/zanders.png",
+    "github": "#",
+    "status": "Published",
+    "date": "2024-03-05"
+  },
+  {
+    "id": 5,
+    "title": "TechCorp Rebranding",
+    "category": "Branding",
+    "description": "Complete visual identity overhaul for a leading tech consultancy. Included logo design, brand guidelines, stationery, and digital assets.",
+    "tags": [
+      "Adobe Illustrator",
+      "Figma",
+      "Brand Strategy"
+    ],
+    "image": "bg-gradient-to-br from-orange-500 to-red-500",
+    "icon": "Layers",
+    "link": "#",
+    "github": "#",
+    "status": "Published",
+    "date": "2023-11-10"
+  },
+  {
+    "id": 6,
+    "title": "Whitelux Brand",
+    "category": "Branding",
+    "description": "well brand clothes, caps etc",
+    "link": "https://whitelux-three.vercel.app/",
+    "image": "/headerwhite.png",
+    "tags": [],
+    "status": "Published",
+    "date": "2026-03-08",
+    "icon": "Globe",
+    "imageSrc": "/headerwhite.png"
+  }
+]

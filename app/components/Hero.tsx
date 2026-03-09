@@ -8,6 +8,7 @@ import {
   Facebook,
   ChevronDown,
 } from "lucide-react";
+import { getData } from "@/lib/data";
 
 // Custom WhatsApp Icon Component
 const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
@@ -101,7 +102,9 @@ const SocialLinks = ({ className = "" }: { className?: string }) => (
   </div>
 );
 
-export default function Hero() {
+export default async function Hero() {
+  const heroData = await getData("hero");
+
   return (
     <section className="relative min-h-screen pt-32 pb-20 px-6 overflow-hidden bg-[#1a0b2e]">
       {/* Background Gradients - Diagonal Stripes */}
@@ -119,16 +122,16 @@ export default function Hero() {
         <div className="space-y-8 animate-fade-in-up">
           <div>
             <h2 className="text-white/80 text-xl mb-2 font-medium tracking-wide">
-              Hello, I'm
+              {heroData.greeting}
             </h2>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight leading-tight">
-              Chuka Onwubuya
+              {heroData.name}
             </h1>
             <h3 className="text-2xl md:text-3xl text-blue-200 font-semibold mb-6">
-              Fullstack Developer & QA Engineer
+              {heroData.role}
             </h3>
             <p className="text-white/60 max-w-lg text-lg leading-relaxed">
-              I design and build amazing digital experiences.
+              {heroData.description}
             </p>
           </div>
 
@@ -160,7 +163,10 @@ export default function Hero() {
               {/* Placeholder for User Image */}
               <div className="w-full h-full bg-gray-800 flex flex-col items-center justify-center text-white/30 p-8 text-center relative overflow-hidden group">
                 {/* Simulated Image Content */}
-                <div className="absolute inset-0 bg-[url('/gander.jpg')] bg-cover bg-center opacity-80 group-hover:scale-105 transition-transform duration-700"></div>
+                <div
+                  className="absolute inset-0 bg-cover bg-center opacity-80 group-hover:scale-105 transition-transform duration-700"
+                  style={{ backgroundImage: `url('${heroData.image}')` }}
+                ></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a0b2e] via-transparent to-transparent opacity-60"></div>
               </div>
             </div>

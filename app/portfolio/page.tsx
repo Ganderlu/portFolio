@@ -2,8 +2,9 @@
 
 import Navbar from "../components/Navbar";
 import Contact from "../components/Contact";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { Project } from "@/lib/types";
 import {
   ArrowUpRight,
   ExternalLink,
@@ -12,84 +13,57 @@ import {
   Zap,
   Smartphone,
   Globe,
+  Briefcase,
 } from "lucide-react";
 
-// Expanded Project Data with details
-const projects = [
-  {
-    id: 1,
-    title: "LetsConnet",
-    category: "Web Design",
-    description:
-      "A dynamic e-commerce platform designed to connect buyers and sellers seamlessly. Features include secure payment integration, real-time messaging, and a user-friendly interface.",
-    tags: ["Next.js", "React", "Tailwind CSS"],
-    image: "bg-gradient-to-br from-indigo-500 to-purple-600",
-    icon: Globe,
-    link: "https://letsconnet.com/",
-    imageSrc: "/Letsconnet.png",
-    github: "#",
-  },
-  // {
-  //   id: 2,
-  //   title: "Rolfsq Investment Platform",
-  //   category: "Web Design",
-  //   description:
-  //     "A premium shopping and investment experience built for high-end clients. Features include real-time inventory tracking and a seamless checkout process.",
-  //   tags: ["Next.js", "Shopify", "Tailwind CSS"],
-  //   image: "bg-gradient-to-br from-blue-600 to-cyan-500",
-  //   icon: Globe,
-  //   link: "https://rolfsq-bmel.vercel.app/",
-  //   imageSrc: "/Rolfsq.png",
-  //   github: "#",
-  // },
-  {
-    id: 3,
-    title: "Taskmate-Ai Website",
-    category: "Web Design",
-    description:
-      "An AI-powered task management tool designed to boost productivity. Features intelligent task prioritization and seamless collaboration tools.",
-    tags: ["Next.js", "AI Integration", "Tailwind CSS"],
-    image: "bg-gradient-to-br from-emerald-500 to-green-500",
-    icon: Zap,
-    link: "https://taskmate-n795.vercel.app/",
-    imageSrc: "/Taskmate.png",
-    github: "#",
-  },
-  {
-    id: 4,
-    title: "Construction Website",
-    category: "Web Design",
-    description:
-      "A modern website crafted for a forward-thinking construction company. It highlights core services, showcases completed projects with strong visuals, and makes it easy for property owners and developers to request quotes or consultations from any device.",
-    tags: ["Next.js", "Tailwind CSS", "Responsive Design"],
-    image: "bg-gradient-to-br from-purple-600 to-pink-500",
-    icon: Smartphone,
-    link: "https://zcc-construction.vercel.app/",
-    imageSrc: "/zanders.png",
-    github: "#",
-  },
-  {
-    id: 5,
-    title: "Real Estate Website",
-    category: "Web Design",
-    description:
-      "Complete visual identity overhaul for a leading tech consultancy. Included logo design, brand guidelines, stationery, and digital assets.",
-    tags: ["Adobe Illustrator", "Figma", "Brand Strategy"],
-    image: "bg-gradient-to-br from-orange-500 to-red-500",
-    icon: Layers,
-    link: "https://dream-homes-smoky.vercel.app/",
-    imageSrc: "/realState.png",
-    github: "#",
-  },
-];
+// Helper to get icon component from string name
+const getIconComponent = (iconName: string) => {
+  const icons: { [key: string]: any } = {
+    Globe,
+    Zap,
+    Smartphone,
+    Layers,
+    Briefcase,
+  };
+  return icons[iconName] || Globe;
+};
 
 export default function PortfolioPage() {
   const [activeTab, setActiveTab] = useState("All");
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch("/api/projects");
+        if (response.ok) {
+          const data = await response.json();
+          // Filter out unpublished projects if needed, or handle status
+          setProjects(data.filter((p: Project) => p.status === "Published"));
+        }
+      } catch (error) {
+        console.error("Failed to fetch projects", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const filteredProjects =
     activeTab === "All"
       ? projects
       : projects.filter((p) => p.category === activeTab);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-[#1a0b2e] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#1a0b2e]">
@@ -209,7 +183,10 @@ export default function PortfolioPage() {
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors"></div>
                 )}
                 <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md p-2 rounded-lg text-white/80 z-10">
-                  <project.icon size={20} />
+                  {(() => {
+                    const IconComponent = getIconComponent(project.icon);
+                    return <IconComponent size={20} />;
+                  })()}
                 </div>
               </div>
 

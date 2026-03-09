@@ -1,0 +1,73 @@
+{
+  "totalViews": 12554,
+  "uniqueVisitors": 8432,
+  "pageViews": 15890,
+  "visitorsBreakdown": {
+    "returning": 35,
+    "new": 65
+  },
+  "bounceRate": "42%",
+  "avgSessionDuration": "2m 15s",
+  "viewsOverTime": [
+    { "date": "2026-02-08", "views": 145, "visitors": 95 },
+    { "date": "2026-02-09", "views": 132, "visitors": 88 },
+    { "date": "2026-02-10", "views": 156, "visitors": 102 },
+    { "date": "2026-02-11", "views": 142, "visitors": 94 },
+    { "date": "2026-02-12", "views": 165, "visitors": 110 },
+    { "date": "2026-02-13", "views": 178, "visitors": 125 },
+    { "date": "2026-02-14", "views": 190, "visitors": 135 },
+    { "date": "2026-02-15", "views": 155, "visitors": 105 },
+    { "date": "2026-02-16", "views": 140, "visitors": 92 },
+    { "date": "2026-02-17", "views": 168, "visitors": 112 },
+    { "date": "2026-02-18", "views": 175, "visitors": 118 },
+    { "date": "2026-02-19", "views": 182, "visitors": 122 },
+    { "date": "2026-02-20", "views": 195, "visitors": 140 },
+    { "date": "2026-02-21", "views": 210, "visitors": 155 },
+    { "date": "2026-02-22", "views": 165, "visitors": 110 },
+    { "date": "2026-02-23", "views": 150, "visitors": 98 },
+    { "date": "2026-02-24", "views": 172, "visitors": 115 },
+    { "date": "2026-02-25", "views": 188, "visitors": 128 },
+    { "date": "2026-02-26", "views": 192, "visitors": 132 },
+    { "date": "2026-02-27", "views": 205, "visitors": 145 },
+    { "date": "2026-02-28", "views": 220, "visitors": 160 },
+    { "date": "2026-03-01", "views": 180, "visitors": 125 },
+    { "date": "2026-03-02", "views": 160, "visitors": 110 },
+    { "date": "2026-03-03", "views": 120, "visitors": 85 },
+    { "date": "2026-03-04", "views": 145, "visitors": 98 },
+    { "date": "2026-03-05", "views": 132, "visitors": 90 },
+    { "date": "2026-03-06", "views": 190, "visitors": 130 },
+    { "date": "2026-03-07", "views": 210, "visitors": 150 },
+    { "date": "2026-03-08", "views": 185, "visitors": 128 }
+  ],
+  "topPages": [
+    { "path": "/", "views": 5425 },
+    { "path": "/portfolio", "views": 3211 },
+    { "path": "/about", "views": 2103 },
+    { "path": "/contact", "views": 1813 }
+  ],
+  "recentActivity": [
+    { "id": 1, "action": "Project Viewed", "details": "Construction Website", "time": "2 mins ago" },
+    { "id": 2, "action": "Resume Downloaded", "details": "From About Page", "time": "15 mins ago" },
+    { "id": 3, "action": "Contact Form", "details": "New message from Sarah", "time": "1 hour ago" },
+    { "id": 4, "action": "Project Viewed", "details": "LetsConnet", "time": "3 hours ago" }
+  ],
+  "locations": [
+    { "country": "United States", "code": "US", "visitors": 4522, "percentage": 45 },
+    { "country": "Nigeria", "code": "NG", "visitors": 2106, "percentage": 21 },
+    { "country": "United Kingdom", "code": "GB", "visitors": 1240, "percentage": 12 },
+    { "country": "India", "code": "IN", "visitors": 980, "percentage": 10 },
+    { "country": "Germany", "code": "DE", "visitors": 650, "percentage": 7 },
+    { "country": "Canada", "code": "CA", "visitors": 540, "percentage": 5 }
+  ],
+  "devices": [
+    { "type": "Desktop", "percentage": 58, "count": 7278 },
+    { "type": "Mobile", "percentage": 38, "count": 4768 },
+    { "type": "Tablet", "percentage": 4, "count": 502 }
+  ],
+  "browsers": [
+    { "name": "Chrome", "percentage": 62 },
+    { "name": "Safari", "percentage": 24 },
+    { "name": "Firefox", "percentage": 8 },
+    { "name": "Edge", "percentage": 6 }
+  ]
+}

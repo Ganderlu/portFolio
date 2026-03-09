@@ -13,8 +13,11 @@ import {
   Wrench,
   Users,
 } from "lucide-react";
+import { getData } from "@/lib/data";
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const aboutData = await getData('about');
+
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
@@ -32,8 +35,7 @@ export default function AboutPage() {
             About Me
           </h1>
           <p className="text-xl text-blue-200 max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-100">
-            I'm Ganderlu Ricchi, a creative technologist with a passion for
-            building digital products that make a difference.
+            {aboutData.tagline}
           </p>
         </div>
       </section>
@@ -49,32 +51,8 @@ export default function AboutPage() {
               </div>
               <h2 className="text-3xl font-bold text-gray-900">My Story</h2>
             </div>
-            <div className="prose prose-lg text-gray-600 leading-relaxed space-y-6">
-              <p>
-                My journey into the world of digital creation began over 8 years
-                ago. What started as a curiosity for how things work on the web
-                quickly turned into a full-blown passion for design and
-                development. I was fascinated by the intersection of logic and
-                creativity—how lines of code could translate into beautiful,
-                interactive experiences.
-              </p>
-              <p>
-                Over the years, I've had the privilege of working with a diverse
-                range of clients, from ambitious startups to established
-                enterprises. I've worn many hats: UI/UX Designer, Frontend
-                Developer, and Product Strategist. This multidisciplinary
-                background allows me to bridge the gap between design and
-                engineering, ensuring that the final product not only looks
-                stunning but functions flawlessly.
-              </p>
-              <p>
-                I believe that great design is not just about aesthetics; it's
-                about solving problems. My approach is user-centric,
-                data-driven, and always focused on delivering value. Whether I'm
-                crafting a brand identity or architecting a complex web
-                application, I bring the same level of dedication and attention
-                to detail to every project.
-              </p>
+            <div className="prose prose-lg text-gray-600 leading-relaxed space-y-6 whitespace-pre-wrap">
+              {aboutData.story}
             </div>
           </div>
 

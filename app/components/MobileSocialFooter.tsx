@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Linkedin,
   Github,
@@ -5,6 +7,7 @@ import {
   Facebook,
 } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 // Custom WhatsApp Icon Component
 const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
@@ -33,6 +36,13 @@ const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
 );
 
 export default function MobileSocialFooter() {
+  const pathname = usePathname();
+
+  // Hide on admin routes
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#1a0b2e]/90 backdrop-blur-lg border-t border-white/10 p-4 flex justify-around items-center">
       <a
