@@ -16,8 +16,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import ContactForm from "../components/ContactForm";
+import { useAnalytics } from "@/lib/hooks/useAnalytics";
 
 export default function ContactPage() {
+  const { trackEvent } = useAnalytics();
+
   return (
     <main className="min-h-screen bg-[#0f0518] text-white">
       <Navbar />
@@ -277,7 +280,13 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-sm text-white/40">Email</p>
-                      <p className="font-medium">cjonwubuya@gmail.com</p>
+                      <a
+                        href="mailto:cjonwubuya@gmail.com"
+                        className="font-medium hover:text-blue-400 transition-colors"
+                        onClick={() => trackEvent("Email Click")}
+                      >
+                        cjonwubuya@gmail.com
+                      </a>
                     </div>
                   </div>
 
@@ -287,7 +296,13 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-sm text-white/40">Phone</p>
-                      <p className="font-medium">+234 906 120 7212</p>
+                      <a
+                        href="tel:+2349061207212"
+                        className="font-medium hover:text-purple-400 transition-colors"
+                        onClick={() => trackEvent("Phone Click")}
+                      >
+                        +234 906 120 7212
+                      </a>
                     </div>
                   </div>
 

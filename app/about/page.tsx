@@ -14,9 +14,10 @@ import {
   Users,
 } from "lucide-react";
 import { getData } from "@/lib/data";
+import DownloadResumeButton from "../components/DownloadResumeButton";
 
 export default async function AboutPage() {
-  const aboutData = await getData('about');
+  const aboutData = await getData("about");
 
   return (
     <main className="min-h-screen bg-white">
@@ -134,14 +135,7 @@ export default async function AboutPage() {
 
           {/* Download CV */}
           <div className="flex justify-center mb-20">
-            <a
-              href="/resume.pdf"
-              download
-              className="group flex items-center gap-3 bg-gray-900 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-gray-900/20 hover:bg-gray-800 hover:shadow-gray-900/30 hover:-translate-y-1 transition-all duration-300"
-            >
-              <Download size={20} className="group-hover:animate-bounce" />
-              Download My Resume
-            </a>
+            <DownloadResumeButton />
           </div>
 
           {/* Education & Certs */}

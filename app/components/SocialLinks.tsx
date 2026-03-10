@@ -1,5 +1,8 @@
+"use client";
+
 import { Linkedin, Github, Twitter, Facebook } from "lucide-react";
 import Image from "next/image";
+import { useAnalytics } from "@/lib/hooks/useAnalytics";
 
 // Custom WhatsApp Icon Component
 const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
@@ -32,6 +35,8 @@ interface SocialLinksProps {
 }
 
 export default function SocialLinks({ className = "" }: SocialLinksProps) {
+  const { trackEvent } = useAnalytics();
+
   return (
     <div className={className}>
       <a
@@ -39,6 +44,7 @@ export default function SocialLinks({ className = "" }: SocialLinksProps) {
         target="_blank"
         rel="noopener noreferrer"
         className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+        onClick={() => trackEvent("LinkedIn Click")}
       >
         <Linkedin size={24} />
       </a>
@@ -47,6 +53,7 @@ export default function SocialLinks({ className = "" }: SocialLinksProps) {
         target="_blank"
         rel="noopener noreferrer"
         className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+        onClick={() => trackEvent("GitHub Click")}
       >
         <Github size={24} />
       </a>
@@ -55,6 +62,7 @@ export default function SocialLinks({ className = "" }: SocialLinksProps) {
         target="_blank"
         rel="noopener noreferrer"
         className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+        onClick={() => trackEvent("Twitter Click")}
       >
         <Twitter size={24} />
       </a>
@@ -63,6 +71,7 @@ export default function SocialLinks({ className = "" }: SocialLinksProps) {
         target="_blank"
         rel="noopener noreferrer"
         className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
+        onClick={() => trackEvent("Facebook Click")}
       >
         <Facebook size={24} />
       </a>
@@ -72,6 +81,7 @@ export default function SocialLinks({ className = "" }: SocialLinksProps) {
         rel="noopener noreferrer"
         className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
         title="WhatsApp"
+        onClick={() => trackEvent("WhatsApp Click")}
       >
         <WhatsAppIcon size={24} />
       </a>
@@ -81,6 +91,7 @@ export default function SocialLinks({ className = "" }: SocialLinksProps) {
         rel="noopener noreferrer"
         className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
         title="LetsConnet"
+        onClick={() => trackEvent("LetsConnet Click")}
       >
         <div className="w-6 h-6 rounded-full overflow-hidden relative">
           <Image

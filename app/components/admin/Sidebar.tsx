@@ -8,9 +8,13 @@ import { useState } from "react";
 const sidebarLinks = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Detailed Analytics", href: "/admin/analytics", icon: LayoutDashboard },
+  { name: "Edit Home", href: "/admin/home", icon: FileText },
   { name: "Edit Hero", href: "/admin/hero", icon: FileText },
   { name: "Edit About", href: "/admin/about", icon: User },
   { name: "Edit Projects", href: "/admin/projects", icon: Briefcase },
+  { name: "Edit Contact", href: "/admin/contact", icon: Briefcase },
+  { name: "Edit Hire-me", href: "/admin/hire", icon: Briefcase },
+  { name: "Edit Footer", href: "/admin/footer", icon: Briefcase },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 

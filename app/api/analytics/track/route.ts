@@ -1,96 +1,176 @@
-import { NextResponse } from 'next/server';
-import { getData, saveData } from '@/lib/data';
+import { NextResponse } from "next/server";
+import { headers } from "next/headers";
+import { db } from "@/firebase/firebaseClient";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  increment,
+  collection,
+  query,
+  where,
+  getDocs,
+  Timestamp,
+  serverTimestamp,
+} from "firebase/firestore";
 
 export async function POST(request: Request) {
   try {
-    const { path } = await request.json();
-    
-    // In a real app, this would be a database transaction
-    // For this demo, we'll read, update, and write
-    const data = await getData('analytics');
-    
-    // Update total views
-    data.totalViews = (data.totalViews || 0) + 1;
-    data.pageViews = (data.pageViews || 0) + 1;
+    const {
+      path,
+      visitorId,
+      isNewVisitor,
+      sessionId,
+      sessionDuration,
+      device,
+      browser,
+      referrer,
+    } = await request.json();
+    const headerList = await headers();
 
-    // Simulate Returning vs New visitors (Simple random logic for demo)
-    if (!data.visitorsBreakdown) {
-      data.visitorsBreakdown = { returning: 35, new: 65 };
-    }
-    // Occasionally fluctuate percentages slightly
-    if (Math.random() > 0.8) {
-      const isNew = Math.random() > 0.4;
-      if (isNew) {
-        data.visitorsBreakdown.new = Math.min(data.visitorsBreakdown.new + 1, 90);
-        data.visitorsBreakdown.returning = 100 - data.visitorsBreakdown.new;
-      } else {
-        data.visitorsBreakdown.returning = Math.min(data.visitorsBreakdown.returning + 1, 90);
-        data.visitorsBreakdown.new = 100 - data.visitorsBreakdown.returning;
-      }
-    }
-    
-    // Update page specific views
-    const pageIndex = data.topPages.findIndex((p: any) => p.path === path);
-    if (pageIndex >= 0) {
-      data.topPages[pageIndex].views += 1;
-    } else {
-      // Add new page if not exists (limit to top 10 for file size)
-      if (data.topPages.length < 10) {
-        data.topPages.push({ path, views: 1 });
-      }
-    }
-    
-    // Sort pages by views
-    data.topPages.sort((a: any, b: any) => b.views - a.views);
+    // Detect country from headers (Vercel, Cloudflare, etc.) or fallback
+    const countryCode = headerList.get("x-vercel-ip-country") || "Unknown";
+    // For local dev or if header is missing, we could use an IP lookup service
+    // but for now we'll stick to headers or "Unknown"
 
-    // Update daily traffic (Views Over Time)
-    const today = new Date();
-    const todayStr = today.toISOString().split('T')[0]; // YYYY-MM-DD
-    
-    // Find today's entry
-    const todayIndex = data.viewsOverTime.findIndex((day: any) => day.date === todayStr);
-    if (todayIndex >= 0) {
-      data.viewsOverTime[todayIndex].views += 1;
-      // Simulate unique visitors (randomly increment every few views)
-      if (Math.random() > 0.3) {
-        data.viewsOverTime[todayIndex].visitors += 1;
-      }
+    const today = new Date().toISOString().split("T")[0];
+    const month = today.substring(0, 7); // YYYY-MM
+
+    // 1. Update Global Stats
+    const globalRef = doc(db, "analytics", "global");
+    const globalSnap = await getDoc(globalRef);
+
+    if (!globalSnap.exists()) {
+      await setDoc(globalRef, {
+        totalViews: 1,
+        uniqueVisitors: isNewVisitor ? 1 : 0,
+        returningVisitors: isNewVisitor ? 0 : 1,
+        pageViews: 1,
+        totalSessions: 1,
+        totalSessionDuration: 0,
+        bounces: 1,
+      });
     } else {
-      // Add new day
-      data.viewsOverTime.push({
-        date: todayStr,
+      const isNewSession = sessionDuration === 0;
+
+      await updateDoc(globalRef, {
+        totalViews: increment(1),
+        pageViews: increment(1),
+        uniqueVisitors: isNewVisitor ? increment(1) : increment(0),
+        returningVisitors: isNewVisitor ? increment(0) : increment(1),
+        totalSessions: isNewSession ? increment(1) : increment(0),
+        totalSessionDuration: increment(sessionDuration / 1000),
+        bounces: isNewSession ? increment(1) : increment(-1),
+      });
+    }
+
+    // 2. Update Daily Stats
+    const dailyRef = doc(db, "analytics", `daily_${today}`);
+    const dailySnap = await getDoc(dailyRef);
+    if (!dailySnap.exists()) {
+      await setDoc(dailyRef, {
+        date: today,
         views: 1,
-        visitors: 1
+        visitors: 1,
+        type: "daily",
       });
-      
-      // Sort by date
-      data.viewsOverTime.sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime());
-      
-      // Keep only last 60 days
-      if (data.viewsOverTime.length > 60) {
-        data.viewsOverTime.shift();
+    } else {
+      await updateDoc(dailyRef, {
+        views: increment(1),
+        visitors: isNewVisitor ? increment(1) : increment(0),
+      });
+    }
+
+    // 3. Update Page Stats
+    const pageId = path.replace(/\//g, "_") || "home";
+    const pageRef = doc(db, "analytics", `page_${pageId}`);
+    const pageSnap = await getDoc(pageRef);
+    if (!pageSnap.exists()) {
+      await setDoc(pageRef, {
+        path,
+        views: 1,
+        type: "page",
+      });
+    } else {
+      await updateDoc(pageRef, {
+        views: increment(1),
+      });
+    }
+
+    // 4. Update Traffic Source
+    const source = "Direct";
+    const sourceRef = doc(db, "analytics", `source_${source.toLowerCase()}`);
+    const sourceSnap = await getDoc(sourceRef);
+    if (!sourceSnap.exists()) {
+      await setDoc(sourceRef, {
+        name: source,
+        visitors: 1,
+        type: "source",
+      });
+    } else {
+      await updateDoc(sourceRef, {
+        visitors: increment(1),
+      });
+    }
+
+    // 5. Update Geographic Stats
+    if (countryCode !== "Unknown") {
+      const geoRef = doc(db, "analytics", `geo_${countryCode}`);
+      const geoSnap = await getDoc(geoRef);
+      if (!geoSnap.exists()) {
+        await setDoc(geoRef, {
+          code: countryCode,
+          // We can't easily get country name from code without a map
+          // We'll use the code as name for now or a small lookup
+          name: countryCode,
+          visitors: 1,
+          type: "geo",
+        });
+      } else {
+        await updateDoc(geoRef, {
+          visitors: increment(1),
+        });
       }
     }
 
-    // Simulate location tracking (Randomly increment a country)
-    if (data.locations && data.locations.length > 0) {
-      const randomLocIndex = Math.floor(Math.random() * data.locations.length);
-      data.locations[randomLocIndex].visitors += 1;
-      
-      // Recalculate percentages
-      const totalLocationVisitors = data.locations.reduce((acc: number, loc: any) => acc + loc.visitors, 0);
-      data.locations.forEach((loc: any) => {
-        loc.percentage = Math.round((loc.visitors / totalLocationVisitors) * 100);
-      });
-      
-      // Sort locations
-      data.locations.sort((a: any, b: any) => b.visitors - a.visitors);
+    // 7. Update Browser Stats
+    if (browser) {
+      const browserRef = doc(
+        db,
+        "analytics",
+        `browser_${browser.toLowerCase().replace(/\s+/g, "_")}`,
+      );
+      const browserSnap = await getDoc(browserRef);
+      if (!browserSnap.exists()) {
+        await setDoc(browserRef, {
+          name: browser,
+          visitors: 1,
+          type: "browser",
+        });
+      } else {
+        await updateDoc(browserRef, {
+          visitors: increment(1),
+        });
+      }
     }
-    
-    await saveData('analytics', data);
-    
+
     return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to track view' }, { status: 500 });
+  } catch (error: any) {
+    console.error("Firestore tracking error:", error);
+    return NextResponse.json(
+      { error: "Failed to track view", details: error.message },
+      { status: 500 },
+    );
   }
+}
+
+function getWeekNumber(d: Date) {
+  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil(
+    ((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7,
+  );
+  return `${d.getUTCFullYear()}-W${weekNo}`;
 }

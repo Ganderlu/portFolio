@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Mail,
   Phone,
@@ -8,8 +10,11 @@ import {
   MapPin,
 } from "lucide-react";
 import ContactForm from "./ContactForm";
+import { useAnalytics } from "@/lib/hooks/useAnalytics";
 
 export default function Contact() {
+  const { trackEvent } = useAnalytics();
+
   return (
     <section
       id="contact"
@@ -60,7 +65,13 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-blue-200 mb-1">Email Me</p>
-                <p className="font-medium text-lg">cjonwubuya@gmail.com</p>
+                <a
+                  href="mailto:cjonwubuya@gmail.com"
+                  className="font-medium text-lg hover:text-blue-400 transition-colors"
+                  onClick={() => trackEvent("Email Click")}
+                >
+                  cjonwubuya@gmail.com
+                </a>
               </div>
             </div>
 
@@ -70,7 +81,13 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-blue-200 mb-1">Call Me</p>
-                <p className="font-medium text-lg">+234 906 120 7212</p>
+                <a
+                  href="tel:+2349061207212"
+                  className="font-medium text-lg hover:text-purple-400 transition-colors"
+                  onClick={() => trackEvent("Phone Click")}
+                >
+                  +234 906 120 7212
+                </a>
               </div>
             </div>
 

@@ -10,15 +10,46 @@ import {
   Clock,
   Globe,
   Calendar,
+  Share2,
+  Bell,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
+import { useNotifications } from "@/lib/hooks/useNotifications";
+
+const COLORS = [
+  "#3b82f6",
+  "#a855f7",
+  "#eab308",
+  "#ef4444",
+  "#0088FE",
+  "#00C49F",
+];
 
 export default function AdminDashboard() {
   const [analytics, setAnalytics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [filteredViews, setFilteredViews] = useState<any[]>([]);
+  const { notifications, unreadCount, markAsRead } = useNotifications();
+  const [showNotifications, setShowNotifications] = useState(false);
+
+  const [previousAnalytics, setPreviousAnalytics] = useState<any>(null);
 
   useEffect(() => {
     const fetchAnalytics = async () => {
@@ -27,6 +58,14 @@ export default function AdminDashboard() {
         if (response.ok) {
           const data = await response.json();
           setAnalytics(data);
+
+          // Store previous day's data for comparison
+          if (data.viewsOverTime && data.viewsOverTime.length > 1) {
+            const yesterdayData =
+              data.viewsOverTime[data.viewsOverTime.length - 2];
+            setPreviousAnalytics(yesterdayData);
+          }
+
           // Default to last 7 days
           if (data.viewsOverTime && data.viewsOverTime.length > 0) {
             const allData = data.viewsOverTime;
@@ -51,6 +90,22 @@ export default function AdminDashboard() {
 
     fetchAnalytics();
   }, []);
+
+  const getChange = (current: number, previous: number) => {
+    if (previous === 0) return { value: 100, isPositive: true };
+    const change = ((current - previous) / previous) * 100;
+    return { value: Math.abs(Math.round(change)), isPositive: change >= 0 };
+  };
+
+  const todayStats =
+    analytics?.viewsOverTime?.[analytics.viewsOverTime.length - 1] || {};
+  const yesterdayStats = previousAnalytics || {};
+
+  const viewsChange = getChange(todayStats.views, yesterdayStats.views);
+  const visitorsChange = getChange(
+    todayStats.visitors,
+    yesterdayStats.visitors,
+  );
 
   const handleDateChange = (type: "start" | "end", value: string) => {
     const newRange = { ...dateRange, [type]: value };
@@ -82,49 +137,49 @@ export default function AdminDashboard() {
       value: analytics?.totalViews.toLocaleString() || "0",
       icon: Eye,
       color: "bg-blue-500",
-      change: "+12%",
+      change: viewsChange,
     },
     {
       title: "Unique Visitors",
       value: analytics?.uniqueVisitors.toLocaleString() || "0",
       icon: Users,
       color: "bg-purple-500",
-      change: "+8%",
+      change: visitorsChange,
     },
     {
       title: "Page Views",
-      value: analytics?.pageViews?.toLocaleString() || analytics?.totalViews.toLocaleString() || "0",
+      value:
+        analytics?.pageViews?.toLocaleString() ||
+        analytics?.totalViews.toLocaleString() ||
+        "0",
       icon: FileText,
       color: "bg-indigo-500",
-      change: "+15%",
+      change: { value: 15, isPositive: true }, // Placeholder
     },
     {
       title: "New vs Returning",
       value: `${analytics?.visitorsBreakdown?.new || 65}% / ${analytics?.visitorsBreakdown?.returning || 35}%`,
       icon: Users,
       color: "bg-orange-500",
-      change: "+5%",
     },
     {
       title: "Avg. Session",
       value: analytics?.avgSessionDuration || "0m",
       icon: Clock,
       color: "bg-green-500",
-      change: "+5%",
     },
     {
       title: "Bounce Rate",
       value: analytics?.bounceRate || "0%",
       icon: TrendingUp,
       color: "bg-pink-500",
-      change: "-2%",
     },
   ];
 
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-purple-900/40 to-blue-900/40 border border-white/10 rounded-2xl p-8 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-purple-900/40 to-blue-900/40 border border-white/10 rounded-2xl p-8 relative overflow-hidden flex justify-between items-start">
         <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
         <div className="relative z-10">
           <h1 className="text-3xl font-bold text-white mb-2">
@@ -134,6 +189,64 @@ export default function AdminDashboard() {
             Here's your portfolio performance overview. Track visitor engagement
             and manage your content all in one place.
           </p>
+        </div>
+
+        {/* Notification Bell */}
+        <div className="relative z-20">
+          <button
+            onClick={() => setShowNotifications(!showNotifications)}
+            className="relative p-2 rounded-full hover:bg-white/10 transition-colors"
+          >
+            <Bell size={24} className="text-white" />
+            {unreadCount > 0 && (
+              <span className="absolute top-0 right-0 block h-3 w-3 rounded-full ring-2 ring-[#1a0b2e] bg-red-500" />
+            )}
+          </button>
+
+          {showNotifications && (
+            <div className="absolute right-0 mt-2 w-80 bg-[#1a0b2e] border border-white/10 rounded-lg shadow-xl z-50">
+              <div className="p-4 border-b border-white/10 flex justify-between items-center">
+                <h3 className="text-lg font-bold text-white">Notifications</h3>
+                {unreadCount > 0 && (
+                  <button
+                    onClick={() =>
+                      markAsRead(
+                        notifications.filter((n) => !n.read).map((n) => n.id),
+                      )
+                    }
+                    className="text-blue-400 text-sm hover:text-blue-300"
+                  >
+                    Mark all as read
+                  </button>
+                )}
+              </div>
+              <div className="max-h-80 overflow-y-auto custom-scrollbar">
+                {notifications.length === 0 ? (
+                  <p className="p-4 text-gray-400 text-sm">
+                    No new notifications.
+                  </p>
+                ) : (
+                  notifications.map((notif) => (
+                    <div
+                      key={notif.id}
+                      className={`p-4 border-b border-white/10 last:border-b-0 ${
+                        !notif.read ? "bg-white/5" : ""
+                      }`}
+                    >
+                      <p
+                        className={`text-sm ${!notif.read ? "text-white font-medium" : "text-gray-400"}`}
+                      >
+                        {notif.message}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {new Date(notif.timestamp?.toDate()).toLocaleString()}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -153,11 +266,18 @@ export default function AdminDashboard() {
                 >
                   <Icon size={24} />
                 </div>
-                <span
-                  className={`text-xs font-medium px-2 py-1 rounded-full ${stat.change.startsWith("+") ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}
-                >
-                  {stat.change}
-                </span>
+                {stat.change && (
+                  <span
+                    className={`text-xs font-medium px-2 py-1 rounded-full ${
+                      stat.change.isPositive
+                        ? "bg-green-500/20 text-green-400"
+                        : "bg-red-500/20 text-red-400"
+                    }`}
+                  >
+                    {stat.change.isPositive ? "+" : "-"}
+                    {stat.change.value}%
+                  </span>
+                )}
               </div>
               <h3 className="text-3xl font-bold text-white mb-1">
                 {stat.value}
@@ -173,155 +293,204 @@ export default function AdminDashboard() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Traffic Chart */}
-        <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-xl p-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-            <div className="flex items-center gap-4">
+      {/* Admin Dashboard Widgets */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Traffic Line Chart */}
+        <div className="bg-white/5 border border-white/10 p-6 rounded-xl">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-500/20 text-blue-400 rounded-lg">
+                <TrendingUp size={20} />
+              </div>
               <h2 className="text-xl font-bold text-white">Traffic Overview</h2>
-              {/* Date Inputs */}
-              <div className="flex items-center gap-2 bg-white/5 rounded-lg p-1 border border-white/10">
-                <Calendar size={14} className="text-gray-400 ml-2" />
-                <input
-                  type="date"
-                  value={dateRange.start}
-                  onChange={(e) => handleDateChange("start", e.target.value)}
-                  className="bg-transparent text-xs text-white outline-none w-24 p-1"
-                />
-                <span className="text-gray-500 text-xs">-</span>
-                <input
-                  type="date"
-                  value={dateRange.end}
-                  onChange={(e) => handleDateChange("end", e.target.value)}
-                  className="bg-transparent text-xs text-white outline-none w-24 p-1"
-                />
-              </div>
             </div>
-
-            <div className="flex gap-2 text-xs">
-              <span className="flex items-center gap-1 text-gray-400">
-                <span className="w-2 h-2 rounded-full bg-purple-500"></span>{" "}
-                Views
-              </span>
-              <span className="flex items-center gap-1 text-gray-400">
-                <span className="w-2 h-2 rounded-full bg-blue-400"></span>{" "}
-                Visitors
-              </span>
-            </div>
+            <Link
+              href="/admin/analytics"
+              className="text-sm text-purple-400 hover:text-purple-300"
+            >
+              View Details
+            </Link>
           </div>
-
-          <div className="h-80 flex items-end justify-between gap-4 px-2 overflow-x-auto pb-4 pt-20">
-            {filteredViews.length > 0 ? (
-              filteredViews.map((item: any, index: number) => {
-                // Calculate height percentages (max view assumed 300 for scaling)
-                const viewHeight = Math.min((item.views / 300) * 100, 100);
-                const visitorHeight = Math.min(
-                  (item.visitors / 300) * 100,
-                  100,
-                );
-
-                return (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center gap-2 min-w-[40px] flex-1 group relative h-full justify-end"
-                  >
-                    {/* Tooltip - Adjusted positioning to be fully visible */}
-                    <div className={`absolute -top-24 left-1/2 -translate-x-1/2 bg-gray-900 border border-white/20 text-white text-xs py-3 px-4 rounded-lg shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-200 z-50 pointer-events-none w-max min-w-[140px] transform group-hover:-translate-y-2 ${index < 2 ? 'left-0 translate-x-0' : index > filteredViews.length - 3 ? 'right-0 left-auto translate-x-0' : ''}`}>
-                      <div className="font-bold mb-2 border-b border-white/10 pb-2 text-gray-300">
-                        {new Date(item.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <div className="flex justify-between items-center gap-6">
-                          <span className="text-purple-400 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]"></span> Views
-                          </span>
-                          <span className="font-bold text-sm">{item.views}</span>
-                        </div>
-                        <div className="flex justify-between items-center gap-6">
-                          <span className="text-blue-400 flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.5)]"></span> Users
-                          </span>
-                          <span className="font-bold text-sm">{item.visitors}</span>
-                        </div>
-                      </div>
-                      {/* Arrow */}
-                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 border-r border-b border-white/20 transform rotate-45"></div>
-                    </div>
-
-                    {/* Bars Container */}
-                    <div className="w-full flex items-end justify-center gap-1 h-full">
-                      {/* Views Bar */}
-                      <div
-                        className="w-2 md:w-5 bg-purple-500/50 rounded-t-sm group-hover:bg-purple-500 transition-all duration-300 relative"
-                        style={{ height: `${viewHeight}%` }}
-                      ></div>
-
-                      {/* Visitors Bar */}
-                      <div
-                        className="w-2 md:w-5 bg-blue-400/50 rounded-t-sm group-hover:bg-blue-400 transition-all duration-300 relative"
-                        style={{ height: `${visitorHeight}%` }}
-                      ></div>
-                    </div>
-
-                    <span className="text-[10px] text-gray-500 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-full group-hover:text-white transition-colors">
-                      {item.date.split("-").slice(1).join("/")}
-                    </span>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-500">
-                No data for selected range
-              </div>
-            )}
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={analytics?.viewsOverTime?.slice(-7) || []}>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="#ffffff10"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="date"
+                  stroke="#9ca3af"
+                  fontSize={10}
+                  tickFormatter={(date) =>
+                    new Date(date).toLocaleDateString(undefined, {
+                      month: "short",
+                      day: "numeric",
+                    })
+                  }
+                />
+                <YAxis stroke="#9ca3af" fontSize={10} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#1a0b2e",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "8px",
+                  }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="views"
+                  name="Views"
+                  stroke="#3b82f6"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Top Pages */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-          <h2 className="text-xl font-bold text-white mb-6">Top Pages</h2>
-          <div className="space-y-4">
-            {analytics?.topPages.map((page: any, index: number) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-3 bg-white/5 rounded-lg"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-500/20 text-blue-400 rounded-lg">
-                    <Globe size={16} />
-                  </div>
-                  <span className="text-sm font-medium text-white">
-                    {page.path}
-                  </span>
-                </div>
-                <span className="text-sm text-gray-400">
-                  {page.views.toLocaleString()}
-                </span>
+        {/* Page Popularity Bar Chart */}
+        <div className="bg-white/5 border border-white/10 p-6 rounded-xl">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-purple-500/20 text-purple-400 rounded-lg">
+                <FileText size={20} />
               </div>
-            ))}
+              <h2 className="text-xl font-bold text-white">Top Pages</h2>
+            </div>
+            <Link
+              href="/admin/analytics"
+              className="text-sm text-purple-400 hover:text-purple-300"
+            >
+              View All
+            </Link>
+          </div>
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={analytics?.topPages?.slice(0, 5) || []}
+                layout="vertical"
+              >
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="#ffffff10"
+                  horizontal={false}
+                />
+                <XAxis type="number" stroke="#9ca3af" fontSize={10} hide />
+                <YAxis
+                  dataKey="path"
+                  type="category"
+                  stroke="#9ca3af"
+                  fontSize={10}
+                  width={80}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#1a0b2e",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "8px",
+                  }}
+                />
+                <Bar
+                  dataKey="views"
+                  fill="#a855f7"
+                  radius={[0, 4, 4, 0]}
+                  barSize={15}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Visitor Source Pie Chart */}
+        <div className="bg-white/5 border border-white/10 p-6 rounded-xl lg:col-span-2">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-orange-500/20 text-orange-400 rounded-lg">
+                <Share2 size={20} />
+              </div>
+              <h2 className="text-xl font-bold text-white">Traffic Sources</h2>
+            </div>
+            <div className="flex gap-4">
+              {(analytics?.sources || []).map((source: any, index: number) => (
+                <div key={index} className="flex items-center gap-2">
+                  <div
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                  ></div>
+                  <span className="text-xs text-gray-400">{source.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={
+                    analytics?.sources || [
+                      { name: "Direct", visitors: 65 },
+                      { name: "Search", visitors: 20 },
+                      { name: "Social", visitors: 10 },
+                      { name: "Referral", visitors: 5 },
+                    ]
+                  }
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={100}
+                  paddingAngle={5}
+                  dataKey="visitors"
+                >
+                  {(analytics?.sources || []).map(
+                    (entry: any, index: number) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ),
+                  )}
+                  <Cell fill="#3b82f6" />
+                  <Cell fill="#a855f7" />
+                  <Cell fill="#eab308" />
+                  <Cell fill="#ef4444" />
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#1a0b2e",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "8px",
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>
 
-      {/* Recent Activity */}
-      <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-        <h2 className="text-xl font-bold text-white mb-6">Recent Activity</h2>
-        <div className="space-y-6">
-          {analytics?.recentActivity.map((activity: any) => (
-            <div
-              key={activity.id}
-              className="flex gap-4 items-start border-b border-white/5 last:border-0 pb-4 last:pb-0"
-            >
-              <div className="w-2 h-2 mt-2 rounded-full bg-purple-500 shrink-0 animate-pulse"></div>
-              <div>
-                <p className="text-white text-sm font-medium">
-                  {activity.action}
-                </p>
-                <p className="text-gray-400 text-sm">{activity.details}</p>
-                <p className="text-gray-500 text-xs mt-1">{activity.time}</p>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Recent Activity */}
+        <div className="lg:col-span-3 bg-white/5 border border-white/10 rounded-xl overflow-hidden p-6">
+          <h2 className="text-xl font-bold text-white mb-6">Recent Activity</h2>
+          <div className="space-y-6">
+            {analytics?.recentActivity.map((activity: any) => (
+              <div
+                key={activity.id}
+                className="flex gap-4 items-start border-b border-white/5 last:border-0 pb-4 last:pb-0"
+              >
+                <div className="w-2 h-2 mt-2 rounded-full bg-purple-500 shrink-0 animate-pulse"></div>
+                <div>
+                  <p className="text-white text-sm font-medium">
+                    {activity.action}
+                  </p>
+                  <p className="text-gray-400 text-sm">{activity.details}</p>
+                  <p className="text-gray-500 text-xs mt-1">{activity.time}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

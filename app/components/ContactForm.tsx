@@ -1,11 +1,21 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { sendEmail } from "../actions/send-email";
 import { Send, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { useAnalytics } from "@/lib/hooks/useAnalytics";
 
 export default function ContactForm() {
   const [state, action, isPending] = useActionState(sendEmail, null);
+  const { trackEvent } = useAnalytics();
+
+  useEffect(() => {
+    if (state?.success) {
+      trackEvent("Contact Form Submission", { status: "success" });
+    } else if (state?.message && !state.success) {
+      trackEvent("Contact Form Submission", { status: "error", message: state.message });
+    }
+  }, [state, trackEvent]);
 
   return (
     <form action={action} className="space-y-6">

@@ -2,13 +2,14 @@
 
 import Navbar from "../components/Navbar";
 import Contact from "../components/Contact";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Project } from "@/lib/types";
+import { useAnalytics } from "@/lib/hooks/useAnalytics";
 import {
   ArrowUpRight,
   ExternalLink,
-  Github,
+  Github as GithubIcon,
   Layers,
   Zap,
   Smartphone,
@@ -28,10 +29,139 @@ const getIconComponent = (iconName: string) => {
   return icons[iconName] || Globe;
 };
 
+function ProjectCard({ project }: { project: Project }) {
+  const { trackEvent } = useAnalytics();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const hasTrackedView = useRef(false);
+  const viewStartTime = useRef<number | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!hasTrackedView.current) {
+            trackEvent("Project Viewed", { project: project.title });
+            hasTrackedView.current = true;
+          }
+          viewStartTime.current = Date.now();
+        } else {
+          if (viewStartTime.current) {
+            const timeSpent = Date.now() - viewStartTime.current;
+            if (timeSpent > 2000) {
+              // Only track if spent more than 2 seconds
+              trackEvent("Project Time Spent", {
+                project: project.title,
+                durationMs: timeSpent,
+              });
+            }
+            viewStartTime.current = null;
+          }
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, [project.title, trackEvent]);
+
+  return (
+    <div
+      ref={cardRef}
+      className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col h-full shadow-lg shadow-black/30 hover:shadow-2xl hover:-translate-y-2 hover:bg-white/10 transition-all duration-300"
+    >
+      <div
+        className={`aspect-[5/3] w-full ${project.image} relative overflow-hidden`}
+      >
+        {project.imageSrc ? (
+          <Image
+            src={project.imageSrc}
+            alt={project.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors"></div>
+        )}
+        <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md p-2 rounded-lg text-white/80 z-10">
+          {(() => {
+            const IconComponent = getIconComponent(project.icon);
+            return <IconComponent size={20} />;
+          })()}
+        </div>
+      </div>
+
+      <div className="p-6 flex-1 flex flex-col">
+        <div className="flex justify-between items-start mb-4">
+          <div>
+            <span className="text-blue-400 text-xs font-bold tracking-wider uppercase mb-1 block">
+              {project.category}
+            </span>
+            <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
+              {project.title}
+            </h3>
+          </div>
+          <div className="flex gap-3">
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
+                onClick={() =>
+                  trackEvent("GitHub Repo Click", { project: project.title })
+                }
+                title="GitHub Repository"
+              >
+                <GithubIcon size={20} />
+              </a>
+            )}
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white transition-colors"
+              onClick={() =>
+                trackEvent("View Live Demo", { project: project.title })
+              }
+              title="Live Website"
+            >
+              <ExternalLink size={20} />
+            </a>
+          </div>
+        </div>
+
+        <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-1">
+          {project.description}
+        </p>
+
+        <div className="flex flex-wrap gap-2 mt-auto">
+          {project.tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-xs font-medium text-gray-500 bg-black/20 px-2 py-1 rounded"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PortfolioPage() {
   const [activeTab, setActiveTab] = useState("All");
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const { trackEvent } = useAnalytics();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -132,6 +262,9 @@ export default function PortfolioPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 bg-white text-[#1a0b2e] px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition-colors"
+                  onClick={() =>
+                    trackEvent("View Live Demo", { project: "LetsConnet" })
+                  }
                 >
                   Visit Website <ArrowUpRight size={18} />
                 </a>
@@ -165,65 +298,7 @@ export default function PortfolioPage() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              className="group bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col h-full shadow-lg shadow-black/30 hover:shadow-2xl hover:-translate-y-2 hover:bg-white/10 transition-all duration-300"
-            >
-              <div
-                className={`aspect-[5/3] w-full ${project.image} relative overflow-hidden`}
-              >
-                {project.imageSrc ? (
-                  <Image
-                    src={project.imageSrc}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors"></div>
-                )}
-                <div className="absolute top-4 right-4 bg-black/30 backdrop-blur-md p-2 rounded-lg text-white/80 z-10">
-                  {(() => {
-                    const IconComponent = getIconComponent(project.icon);
-                    return <IconComponent size={20} />;
-                  })()}
-                </div>
-              </div>
-
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <span className="text-blue-400 text-xs font-bold tracking-wider uppercase mb-1 block">
-                      {project.category}
-                    </span>
-                    <h3 className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
-                      {project.title}
-                    </h3>
-                  </div>
-                  <a
-                    href={project.link}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    <ExternalLink size={20} />
-                  </a>
-                </div>
-
-                <p className="text-gray-400 text-sm leading-relaxed mb-6 flex-1">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs font-medium text-gray-500 bg-black/20 px-2 py-1 rounded"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </section>
