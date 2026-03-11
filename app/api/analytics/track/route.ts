@@ -37,7 +37,32 @@ export async function POST(request: Request) {
     const today = new Date().toISOString().split("T")[0];
     const month = today.substring(0, 7); // YYYY-MM
 
-    // 1. Update Global Stats
+    // 2. Update Daily Stats
+    const dailyRef = doc(db, "analytics", `daily_${today}`);
+    const dailySnap = await getDoc(dailyRef);
+    const isNewSession = sessionDuration === 0;
+
+    if (!dailySnap.exists()) {
+      await setDoc(dailyRef, {
+        date: today,
+        views: 1,
+        visitors: isNewVisitor ? 1 : 0,
+        sessions: 1,
+        duration: 0,
+        bounces: 1,
+        type: "daily",
+      });
+    } else {
+      await updateDoc(dailyRef, {
+        views: increment(1),
+        visitors: isNewVisitor ? increment(1) : increment(0),
+        sessions: isNewSession ? increment(1) : increment(0),
+        duration: increment(sessionDuration / 1000),
+        bounces: isNewSession ? increment(1) : increment(-1),
+      });
+    }
+
+    // 3. Update Global Stats
     const globalRef = doc(db, "analytics", "global");
     const globalSnap = await getDoc(globalRef);
 
@@ -52,8 +77,6 @@ export async function POST(request: Request) {
         bounces: 1,
       });
     } else {
-      const isNewSession = sessionDuration === 0;
-
       await updateDoc(globalRef, {
         totalViews: increment(1),
         pageViews: increment(1),
@@ -62,23 +85,6 @@ export async function POST(request: Request) {
         totalSessions: isNewSession ? increment(1) : increment(0),
         totalSessionDuration: increment(sessionDuration / 1000),
         bounces: isNewSession ? increment(1) : increment(-1),
-      });
-    }
-
-    // 2. Update Daily Stats
-    const dailyRef = doc(db, "analytics", `daily_${today}`);
-    const dailySnap = await getDoc(dailyRef);
-    if (!dailySnap.exists()) {
-      await setDoc(dailyRef, {
-        date: today,
-        views: 1,
-        visitors: 1,
-        type: "daily",
-      });
-    } else {
-      await updateDoc(dailyRef, {
-        views: increment(1),
-        visitors: isNewVisitor ? increment(1) : increment(0),
       });
     }
 

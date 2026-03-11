@@ -1,14 +1,9 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Linkedin,
-  Dribbble,
-  Github,
-  Twitter,
-  Facebook,
-  ChevronDown,
-} from "lucide-react";
-import { getData } from "@/lib/data";
+import { Linkedin, Github, Twitter, Facebook, ChevronDown } from "lucide-react";
 
 // Custom WhatsApp Icon Component
 const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
@@ -36,74 +31,49 @@ const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
   </svg>
 );
 
-const SocialLinks = ({ className = "" }: { className?: string }) => (
-  <div className={className}>
-    <a
-      href="https://wa.me/2349061207212"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-      title="WhatsApp"
-    >
-      <WhatsAppIcon size={24} />
-    </a>
-    <a
-      href="https://www.linkedin.com/in/chuka-onwubuya-4674b9163"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-      title="LinkedIn"
-    >
-      <Linkedin size={24} />
-    </a>
-    <a
-      href="https://github.com/Ganderlu"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-      title="GitHub"
-    >
-      <Github size={24} />
-    </a>
-    <a
-      href="https://twitter.com/Ganderlu"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-      title="Twitter"
-    >
-      <Twitter size={24} />
-    </a>
-    <a
-      href="https://facebook.com/Ganderlu"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-      title="Facebook"
-    >
-      <Facebook size={24} />
-    </a>
-    <a
-      href="https://letsconnet.com/feeds"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-white/60 hover:text-white transition-colors transform hover:scale-110"
-      title="LetsConnet"
-    >
-      <div className="w-6 h-6 rounded-full overflow-hidden relative">
-        <Image
-          src="/letsconnetLogo.png"
-          alt="LetsConnet"
-          fill
-          className="object-cover"
-        />
-      </div>
-    </a>
-  </div>
-);
+export default function Hero({ data }: { data?: any }) {
+  const [heroData, setHeroData] = useState<any>(data || null);
+  const [loading, setLoading] = useState(!data);
 
-export default async function Hero() {
-  const heroData = await getData("hero");
+  useEffect(() => {
+    if (!data) {
+      const fetchHeroData = async () => {
+        try {
+          const response = await fetch("/api/home");
+          if (response.ok) {
+            const data = await response.json();
+            setHeroData(data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch home data", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchHeroData();
+    }
+  }, [data]);
+
+  if (loading) {
+    return (
+      <section className="relative min-h-screen pt-32 pb-20 px-6 overflow-hidden bg-[#1a0b2e]">
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!heroData) {
+    return (
+      <section className="relative min-h-screen pt-32 pb-20 px-6 overflow-hidden bg-[#1a0b2e]">
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <p className="text-white/60">Failed to load hero section data.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="relative min-h-screen pt-32 pb-20 px-6 overflow-hidden bg-[#1a0b2e]">
@@ -150,7 +120,7 @@ export default async function Hero() {
             </Link>
           </div>
 
-          <SocialLinks className="hidden md:flex items-center gap-6 pt-4" />
+          {/* SocialLinks component removed */}
         </div>
 
         <div className="relative z-10 flex justify-center md:justify-end">

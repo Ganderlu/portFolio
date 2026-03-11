@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Frontend Engineering",
+    "desc": "Building scalable, high-performance user interfaces using React, Next.js, and modern JavaScript patterns.",
+    "color": "text-blue-600",
+    "bg": "bg-blue-50",
+    "border": "group-hover:border-blue-200"
+  },
+  {
+    "title": "Backend & Firebase",
+    "desc": "Designing secure back-end systems with Firebase, Firestore, Authentication, and cloud-based logic.",
+    "color": "text-emerald-600",
+    "bg": "bg-emerald-50",
+    "border": "group-hover:border-emerald-200"
+  },
+  {
+    "title": "Email Systems & Automation",
+    "desc": "Implementing SMTP-based email systems, transactional emails, and marketing templates with automation.",
+    "color": "text-purple-600",
+    "bg": "bg-purple-50",
+    "border": "group-hover:border-purple-200"
+  },
+  {
+    "title": "Mobile & Responsive Apps",
+    "desc": "Developing responsive, mobile-first web applications that deliver consistent experiences across devices.",
+    "color": "text-indigo-600",
+    "bg": "bg-indigo-50",
+    "border": "group-hover:border-indigo-200"
+  }
+]

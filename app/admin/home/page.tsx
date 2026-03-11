@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Save, RefreshCw, Upload } from "lucide-react";
 
-export default function HeroAdmin() {
+export default function HomeAdmin() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [formData, setFormData] = useState({
@@ -18,13 +18,13 @@ export default function HeroAdmin() {
     // Fetch initial data
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/hero');
+        const response = await fetch("/api/home");
         if (response.ok) {
           const data = await response.json();
           setFormData(data);
         }
       } catch (error) {
-        console.error("Failed to fetch hero data", error);
+        console.error("Failed to fetch home data", error);
       } finally {
         setFetching(false);
       }
@@ -43,23 +43,23 @@ export default function HeroAdmin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
-      const response = await fetch('/api/hero', {
-        method: 'POST',
+      const response = await fetch("/api/home", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        alert("Hero section updated successfully!");
+        alert("Home section updated successfully!");
       } else {
-        alert("Failed to update hero section.");
+        alert("Failed to update home section.");
       }
     } catch (error) {
-      console.error("Error updating hero section:", error);
+      console.error("Error updating home section:", error);
       alert("An error occurred while saving.");
     } finally {
       setLoading(false);
@@ -77,7 +77,7 @@ export default function HeroAdmin() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">Edit Hero Section</h1>
+        <h1 className="text-2xl font-bold text-white">Edit Home Section</h1>
         <button
           onClick={handleSubmit}
           disabled={loading}

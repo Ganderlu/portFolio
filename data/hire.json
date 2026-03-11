@@ -1,0 +1,115 @@
+{
+  "hero": {
+    "badge": "Available for New Projects",
+    "titlePrefix": "Let's Build Your",
+    "titleHighlight": "Next Big Idea",
+    "description": "I help businesses and startups create scalable, high-performance web applications. Whether you need a full-stack solution, a robust backend, or a stunning frontend, I deliver results that matter."
+  },
+  "valueProps": {
+    "title": "Why Work With Me?",
+    "subtitle": "I don't just write code; I solve problems. Here is what you can expect when we collaborate.",
+    "items": [
+      {
+        "icon": "Zap",
+        "title": "Fast & Performant",
+        "desc": "Optimized applications that load fast and perform smoothly under pressure.",
+        "color": "text-yellow-400",
+        "bg": "bg-yellow-400/10"
+      },
+      {
+        "icon": "Shield",
+        "title": "Secure & Reliable",
+        "desc": "Security best practices built-in from day one to protect your data and users.",
+        "color": "text-green-400",
+        "bg": "bg-green-400/10"
+      },
+      {
+        "icon": "Clock",
+        "title": "On-Time Delivery",
+        "desc": "Respect for deadlines and clear communication throughout the project lifecycle.",
+        "color": "text-blue-400",
+        "bg": "bg-blue-400/10"
+      }
+    ]
+  },
+  "expertise": {
+    "title": "Expertise That Drives Growth",
+    "description": "Leveraging the latest technologies to build software that scales with your business. My tech stack is chosen for reliability, speed, and maintainability.",
+    "items": [
+      {
+        "icon": "Database",
+        "title": "Backend Development",
+        "desc": "API design, database management, and server-side logic using Node.js, Python, or Go.",
+        "color": "purple"
+      },
+      {
+        "icon": "Layout",
+        "title": "Frontend Development",
+        "desc": "Responsive, accessible, and interactive UIs built with React, Next.js, and Tailwind CSS.",
+        "color": "blue"
+      },
+      {
+        "icon": "Server",
+        "title": "Full Stack Solutions",
+        "desc": "End-to-end development handling everything from the database to the client-side experience.",
+        "color": "pink"
+      }
+    ],
+    "techStack": [
+      "React",
+      "Next.js",
+      "Node.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "PostgreSQL",
+      "MongoDB",
+      "Docker",
+      "AWS",
+      "GraphQL",
+      "Redis",
+      "Git"
+    ]
+  },
+  "pricing": {
+    "title": "Engagement Models",
+    "subtitle": "Flexible options to suit your project needs and budget.",
+    "models": [
+      {
+        "type": "Hourly",
+        "priceRange": "$5 - $10",
+        "durationLabel": "per hour",
+        "description": "Perfect for small tasks, bug fixes, or consultation calls where scope is variable.",
+        "features": [
+          "Pay as you go",
+          "Detailed time tracking",
+          "Flexible availability"
+        ],
+        "color": "blue"
+      },
+      {
+        "type": "Fixed Project",
+        "priceRange": "$2,000+",
+        "durationLabel": "per project",
+        "description": "Ideal for well-defined projects with clear deliverables and a specific timeline.",
+        "features": [
+          "Milestone-based payments",
+          "Defined scope of work",
+          "Predictable cost"
+        ],
+        "color": "purple"
+      },
+      {
+        "type": "Retainer",
+        "priceRange": "$1,500+",
+        "durationLabel": "per month",
+        "description": "Continuous support and development for ongoing product growth and maintenance.",
+        "features": [
+          "Priority support",
+          "Dedicated hours per week",
+          "Monthly strategy calls"
+        ],
+        "color": "pink"
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import {
   Mail,
   Phone,
@@ -14,6 +15,38 @@ import { useAnalytics } from "@/lib/hooks/useAnalytics";
 
 export default function Contact() {
   const { trackEvent } = useAnalytics();
+  const [contactData, setContactData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchContactData = async () => {
+      try {
+        const response = await fetch("/api/contact");
+        if (response.ok) {
+          const data = await response.json();
+          setContactData(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch contact data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContactData();
+  }, []);
+
+  if (loading) {
+    return (
+      <section id="contact" className="relative pt-32 pb-12 bg-[#0f0518] text-white overflow-hidden">
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!contactData) return null;
 
   return (
     <section
@@ -47,11 +80,10 @@ export default function Contact() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Contact Me
+            {contactData.title}
           </h2>
           <p className="text-blue-200 text-lg max-w-2xl mx-auto">
-            Let's work together. I'm open to new opportunities and
-            collaborations.
+            {contactData.subtitle}
           </p>
         </div>
 
@@ -66,11 +98,11 @@ export default function Contact() {
               <div>
                 <p className="text-sm text-blue-200 mb-1">Email Me</p>
                 <a
-                  href="mailto:cjonwubuya@gmail.com"
+                  href={`mailto:${contactData.email}`}
                   className="font-medium text-lg hover:text-blue-400 transition-colors"
                   onClick={() => trackEvent("Email Click")}
                 >
-                  cjonwubuya@gmail.com
+                  {contactData.email}
                 </a>
               </div>
             </div>
@@ -82,11 +114,11 @@ export default function Contact() {
               <div>
                 <p className="text-sm text-blue-200 mb-1">Call Me</p>
                 <a
-                  href="tel:+2349061207212"
+                  href={`tel:${contactData.phone.replace(/\s+/g, '')}`}
                   className="font-medium text-lg hover:text-purple-400 transition-colors"
                   onClick={() => trackEvent("Phone Click")}
                 >
-                  +234 906 120 7212
+                  {contactData.phone}
                 </a>
               </div>
             </div>
@@ -97,7 +129,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-blue-200 mb-1">Location</p>
-                <p className="font-medium text-lg">Anambra, Nigeria</p>
+                <p className="font-medium text-lg">{contactData.location}</p>
               </div>
             </div>
           </div>
@@ -108,33 +140,7 @@ export default function Contact() {
         </div>
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-blue-200/40">
-          <p>&copy; 2026 Ganderlu Ricchi. All Rights Reserved.</p>
-          {/* <div className="flex items-center gap-6">
-            <a
-              href="#"
-              className="hover:text-white transition-colors hover:scale-110"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              href="#"
-              className="hover:text-white transition-colors hover:scale-110"
-            >
-              <Dribbble size={20} />
-            </a>
-            <a
-              href="#"
-              className="hover:text-white transition-colors hover:scale-110"
-            >
-              <Github size={20} />
-            </a>
-            <a
-              href="#"
-              className="hover:text-white transition-colors hover:scale-110"
-            >
-              <Twitter size={20} />
-            </a>
-          </div> */}
+          <p>&copy; {contactData.footerCopyright}</p>
         </div>
       </div>
     </section>

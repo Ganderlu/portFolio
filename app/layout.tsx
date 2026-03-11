@@ -1,43 +1,20 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Dancing_Script } from "next/font/google";
-import "./globals.css";
+import { Inter } from 'next/font/google';
+import './globals.css';
+import AnalyticsTracker from '@/app/components/analytics/AnalyticsTracker';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'] });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const dancingScript = Dancing_Script({
-  variable: "--font-dancing-script",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "Ganderlu Ricchi - Portfolio",
-  description: "Creative Designer & Developer Portfolio",
+export const metadata = {
+  title: 'Ganderlu Portfolio',
+  description: 'Full Stack Developer Portfolio',
 };
 
-import MobileSocialFooter from "./components/MobileSocialFooter";
-import AnalyticsTracker from "./components/analytics/AnalyticsTracker";
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${dancingScript.variable} antialiased`}
-      >
+      <body className={inter.className}>
         <AnalyticsTracker />
         {children}
-        <MobileSocialFooter />
       </body>
     </html>
   );

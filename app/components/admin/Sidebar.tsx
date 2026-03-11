@@ -2,19 +2,32 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, User, FileText, Briefcase, Settings, LogOut, Menu, X } from "lucide-react";
+import {
+  LayoutDashboard,
+  User,
+  FileText,
+  Briefcase,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+  Mail,
+} from "lucide-react";
 import { useState } from "react";
 
 const sidebarLinks = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { name: "Detailed Analytics", href: "/admin/analytics", icon: LayoutDashboard },
+  {
+    name: "Detailed Analytics",
+    href: "/admin/analytics",
+    icon: LayoutDashboard,
+  },
   { name: "Edit Home", href: "/admin/home", icon: FileText },
-  { name: "Edit Hero", href: "/admin/hero", icon: FileText },
   { name: "Edit About", href: "/admin/about", icon: User },
   { name: "Edit Projects", href: "/admin/projects", icon: Briefcase },
-  { name: "Edit Contact", href: "/admin/contact", icon: Briefcase },
-  { name: "Edit Hire-me", href: "/admin/hire", icon: Briefcase },
-  { name: "Edit Footer", href: "/admin/footer", icon: Briefcase },
+  { name: "Edit Contact", href: "/admin/contact", icon: Mail },
+  { name: "Edit Hire Me", href: "/admin/hire", icon: Briefcase },
+  { name: "Edit Skills", href: "/admin/skills", icon: FileText },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
@@ -51,7 +64,7 @@ export default function AdminSidebar() {
             {sidebarLinks.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;
-              
+
               return (
                 <Link
                   key={link.href}
@@ -82,7 +95,7 @@ export default function AdminSidebar() {
 
       {/* Overlay for mobile */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm md:hidden"
           onClick={() => setIsOpen(false)}
         />

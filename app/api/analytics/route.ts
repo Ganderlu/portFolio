@@ -31,7 +31,20 @@ export async function GET() {
       orderBy("date", "desc"),
     );
     const dailySnap = await getDocs(dailyQuery);
-    const viewsOverTime = dailySnap.docs.map((doc) => doc.data()).reverse();
+    const viewsOverTime = dailySnap.docs.map((doc) => {
+      const data = doc.data();
+      const sessions = data.sessions || 1;
+      const bounces = data.bounces || 0;
+      const bounceRate = Math.round((bounces / sessions) * 100);
+      const totalDuration = data.duration || 0;
+      const avgSeconds = Math.round(totalDuration / sessions);
+
+      return {
+        ...data,
+        bounceRate,
+        avgSessionDurationSeconds: avgSeconds,
+      };
+    }).reverse();
 
     // 3. Fetch Page Stats
     const pageQuery = query(

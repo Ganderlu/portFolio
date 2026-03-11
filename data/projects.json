@@ -72,23 +72,6 @@
     "date": "2024-03-05"
   },
   {
-    "id": 5,
-    "title": "TechCorp Rebranding",
-    "category": "Branding",
-    "description": "Complete visual identity overhaul for a leading tech consultancy. Included logo design, brand guidelines, stationery, and digital assets.",
-    "tags": [
-      "Adobe Illustrator",
-      "Figma",
-      "Brand Strategy"
-    ],
-    "image": "bg-gradient-to-br from-orange-500 to-red-500",
-    "icon": "Layers",
-    "link": "#",
-    "github": "#",
-    "status": "Published",
-    "date": "2023-11-10"
-  },
-  {
     "id": 6,
     "title": "Whitelux Brand",
     "category": "Branding",

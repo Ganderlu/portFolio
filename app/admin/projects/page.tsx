@@ -7,6 +7,7 @@ import Link from "next/link";
 export default function ProjectsAdmin() {
   const [projects, setProjects] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All Categories");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,9 +28,40 @@ export default function ProjectsAdmin() {
     fetchProjects();
   }, []);
 
-  const filteredProjects = projects.filter((p) =>
-    p.title.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+  const filteredProjects = projects.filter((p) => {
+    const matchesSearch = p.title
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      categoryFilter === "All Categories" || p.category === categoryFilter;
+    return matchesSearch && matchesCategory;
+  });
+
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("Are you sure you want to delete this project?"))
+      return;
+
+    try {
+      const updatedProjects = projects.filter((p) => p.id !== id);
+      const response = await fetch("/api/projects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProjects),
+      });
+
+      if (response.ok) {
+        setProjects(updatedProjects);
+        alert("Project deleted successfully!");
+      } else {
+        alert("Failed to delete project.");
+      }
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      alert("An error occurred while deleting.");
+    }
+  };
 
   if (loading) {
     return (
@@ -73,11 +105,16 @@ export default function ProjectsAdmin() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <select className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-gray-300 focus:outline-none focus:border-purple-500">
-          <option>All Categories</option>
-          <option>Web Design</option>
-          <option>App Design</option>
-          <option>Branding</option>
+        <select
+          className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-gray-300 focus:outline-none focus:border-purple-500"
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+        >
+          <option value="All Categories">All Categories</option>
+          <option value="Web Design">Web Design</option>
+          <option value="App Design">App Design</option>
+          <option value="Branding">Branding</option>
+          <option value="Development">Development</option>
         </select>
       </div>
 
@@ -102,7 +139,17 @@ export default function ProjectsAdmin() {
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-700 to-gray-800 border border-white/10"></div>
+                      {project.imageSrc || project.image ? (
+                        <div className="w-10 h-10 rounded-lg overflow-hidden border border-white/10 relative">
+                          <img
+                            src={project.imageSrc || project.image}
+                            alt={project.title}
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-700 to-gray-800 border border-white/10"></div>
+                      )}
                       <span className="font-medium text-white">
                         {project.title}
                       </span>
@@ -127,19 +174,24 @@ export default function ProjectsAdmin() {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <button
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
-                        title="View"
+                        title="View Live"
                       >
                         <ExternalLink size={16} />
-                      </button>
-                      <button
+                      </a>
+                      <Link
+                        href={`/admin/projects/${project.id}`}
                         className="p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 rounded-lg transition-colors"
                         title="Edit"
                       >
                         <Edit size={16} />
-                      </button>
+                      </Link>
                       <button
+                        onClick={() => handleDelete(project.id)}
                         className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg transition-colors"
                         title="Delete"
                       >

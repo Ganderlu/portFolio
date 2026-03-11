@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAnalytics } from "@/lib/hooks/useAnalytics";
 
 // Define interface for project structure
 interface Project {
@@ -13,56 +14,49 @@ interface Project {
   imageSrc?: string;
 }
 
-const projects: Project[] = [
-  {
-    id: 1,
-    title: "LetsConnet",
-    category: "Web Design",
-    image: "bg-gradient-to-br from-indigo-500 to-purple-600",
-    link: "https://letsconnet.com/",
-    imageSrc: "/Letsconnet.png",
-  },
-  // {
-  //   id: 2,
-  //   title: "Rolfsq Website",
-  //   category: "Web Design",
-  //   image: "bg-gradient-to-br from-blue-500 to-cyan-500",
-  //   link: "https://rolfsq-bmel.vercel.app/",
-  //   imageSrc: "/Rolfsq.png",
-  // },
-  {
-    id: 3,
-    title: "Taskmate-Ai Website",
-    category: "Web Design",
-    image: "bg-gradient-to-br from-emerald-500 to-green-500",
-    link: "https://taskmate-n795.vercel.app/",
-    imageSrc: "/Taskmate.png",
-  },
-  {
-    id: 4,
-    title: "Construction Website",
-    category: "Web Design",
-    image: "bg-gradient-to-br from-emerald-500 to-green-500",
-    link: "https://zcc-construction.vercel.app/",
-    imageSrc: "/zanders.png",
-  },
-  {
-    id: 5,
-    title: "Real Estate Website",
-    category: "Web Design",
-    image: "bg-gradient-to-br from-emerald-500 to-green-500",
-    link: "https://dream-homes-smoky.vercel.app/",
-    imageSrc: "/realState.png",
-  },
-];
-
-export default function Portfolio() {
+export default function Portfolio({ data }: { data?: Project[] }) {
+  const { trackEvent } = useAnalytics();
+  const [projects, setProjects] = useState<Project[]>(data || []);
+  const [loading, setLoading] = useState(!data);
   const [activeTab, setActiveTab] = useState("All");
+
+  useEffect(() => {
+    if (!data) {
+      const fetchProjects = async () => {
+        try {
+          const response = await fetch("/api/projects");
+          if (response.ok) {
+            const data = await response.json();
+            setProjects(data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch projects", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchProjects();
+    }
+  }, [data]);
 
   const filteredProjects =
     activeTab === "All"
       ? projects
       : projects.filter((p) => p.category === activeTab);
+
+  if (loading) {
+    return (
+      <section
+        id="portfolio"
+        className="py-24 bg-[#1a0b2e] relative overflow-hidden"
+      >
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -162,6 +156,9 @@ export default function Portfolio() {
                       : undefined
                   }
                   className="inline-flex items-center gap-1 text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors group-hover:translate-x-1 duration-300"
+                  onClick={() =>
+                    trackEvent("Project Viewed", { project: project.title })
+                  }
                 >
                   View Details <span>&rarr;</span>
                 </a>

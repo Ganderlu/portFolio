@@ -154,7 +154,7 @@ export default function AdminDashboard() {
         "0",
       icon: FileText,
       color: "bg-indigo-500",
-      change: { value: 15, isPositive: true }, // Placeholder
+      change: getChange(todayStats.pageViews, yesterdayStats.pageViews),
     },
     {
       title: "New vs Returning",
@@ -291,6 +291,49 @@ export default function AdminDashboard() {
             </Link>
           );
         })}
+      </div>
+
+      {/* Quick Actions Section */}
+      <div className="bg-white/5 border border-white/10 rounded-xl p-6">
+        <h2 className="text-xl font-bold text-white mb-6">Quick Actions</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <Link
+            href="/admin/home"
+            className="flex items-center gap-3 p-4 bg-purple-600/10 border border-purple-500/20 rounded-lg hover:bg-purple-600/20 transition-colors group"
+          >
+            <div className="p-2 bg-purple-600/20 text-purple-400 rounded-md group-hover:scale-110 transition-transform">
+              <FileText size={20} />
+            </div>
+            <span className="text-white font-medium">Edit Home</span>
+          </Link>
+          <Link
+            href="/admin/about"
+            className="flex items-center gap-3 p-4 bg-blue-600/10 border border-blue-500/20 rounded-lg hover:bg-blue-600/20 transition-colors group"
+          >
+            <div className="p-2 bg-blue-600/20 text-blue-400 rounded-md group-hover:scale-110 transition-transform">
+              <Users size={20} />
+            </div>
+            <span className="text-white font-medium">Edit About</span>
+          </Link>
+          <Link
+            href="/admin/projects"
+            className="flex items-center gap-3 p-4 bg-indigo-600/10 border border-indigo-500/20 rounded-lg hover:bg-indigo-600/20 transition-colors group"
+          >
+            <div className="p-2 bg-indigo-600/20 text-indigo-400 rounded-md group-hover:scale-110 transition-transform">
+              <Briefcase size={20} />
+            </div>
+            <span className="text-white font-medium">Edit Projects</span>
+          </Link>
+          <Link
+            href="/admin/skills"
+            className="flex items-center gap-3 p-4 bg-pink-600/10 border border-pink-500/20 rounded-lg hover:bg-pink-600/20 transition-colors group"
+          >
+            <div className="p-2 bg-pink-600/20 text-pink-400 rounded-md group-hover:scale-110 transition-transform">
+              <FileText size={20} />
+            </div>
+            <span className="text-white font-medium">Edit Skills</span>
+          </Link>
+        </div>
       </div>
 
       {/* Admin Dashboard Widgets */}

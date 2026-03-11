@@ -1,4 +1,51 @@
-export default function About() {
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function About({ data }: { data?: any }) {
+  const [aboutData, setAboutData] = useState<any>(data || null);
+  const [loading, setLoading] = useState(!data);
+
+  useEffect(() => {
+    if (!data) {
+      const fetchAboutData = async () => {
+        try {
+          const response = await fetch("/api/about");
+          if (response.ok) {
+            const data = await response.json();
+            setAboutData(data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch about data", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchAboutData();
+    }
+  }, [data]);
+
+  if (loading) {
+    return (
+      <section id="about" className="py-24 bg-white relative overflow-hidden">
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!aboutData) {
+    return (
+      <section id="about" className="py-24 bg-white relative overflow-hidden">
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <p className="text-gray-600">Failed to load about section data.</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="about" className="py-24 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
@@ -7,21 +54,12 @@ export default function About() {
             <h3 className="text-blue-600 font-semibold text-lg mb-2 uppercase tracking-wider">
               About Me
             </h3>
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              A Bit About Myself
-            </h2>
+            {/* <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              {aboutData.tagline}
+            </h2> */}
             <div className="w-20 h-1 bg-blue-600 mb-6 rounded-full"></div>
             <p className="text-gray-600 leading-relaxed text-lg mb-6">
-              Onwubuya Chuka Patrick is a software developer
-              and technology entrepreneur with a strong focus on building
-              scalable, user-centered digital products. He is the founder of
-              IBIRD Team, a technology-driven company committed to delivering
-              modern web solutions and innovative digital services.
-            </p>
-            <p className="text-gray-600 leading-relaxed text-lg">
-              With a strong foundation in both design principles and modern
-              coding practices, I can handle projects from concept to
-              deployment.
+              {aboutData.story}
             </p>
           </div>
 

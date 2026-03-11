@@ -11,6 +11,7 @@ import {
   Users,
   Clock,
   TrendingUp,
+  TrendingDown,
   Eye,
   FileText,
   Share2,
@@ -59,7 +60,8 @@ export default function DetailedAnalytics() {
 
           // Store previous day's data for comparison
           if (data.viewsOverTime && data.viewsOverTime.length > 1) {
-            const yesterdayData = data.viewsOverTime[data.viewsOverTime.length - 2];
+            const yesterdayData =
+              data.viewsOverTime[data.viewsOverTime.length - 2];
             setPreviousAnalytics(yesterdayData);
           }
         }
@@ -73,19 +75,62 @@ export default function DetailedAnalytics() {
     fetchAnalytics();
   }, []);
 
-  const getChange = (current: number, previous: number) => {
-    if (previous === 0) return { value: 100, isPositive: true };
-    const change = ((current - previous) / previous) * 100;
-    return { value: Math.abs(Math.round(change)), isPositive: change >= 0 };
+  const viewsOverTime = analytics?.viewsOverTime || [];
+  const todayStats = viewsOverTime[viewsOverTime.length - 1] || {
+    views: 0,
+    visitors: 0,
+    bounceRate: 0,
+    avgSessionDurationSeconds: 0,
+  };
+  const yesterdayStats = viewsOverTime[viewsOverTime.length - 2] || {
+    views: 0,
+    visitors: 0,
+    bounceRate: 0,
+    avgSessionDurationSeconds: 0,
   };
 
-  const todayStats = analytics?.viewsOverTime?.[analytics.viewsOverTime.length - 1] || {};
-  const yesterdayStats = previousAnalytics || {};
+  const getChange = (current: number = 0, previous: number = 0) => {
+    if (previous === 0) return { value: 0, isPositive: true };
+    const change = ((current - previous) / previous) * 100;
+    return {
+      value: Math.abs(Math.round(change)),
+      isPositive: change >= 0,
+    };
+  };
 
-  const viewsChange = getChange(todayStats.views, yesterdayStats.views);
-  const visitorsChange = getChange(todayStats.visitors, yesterdayStats.visitors);
-  const bounceRateChange = getChange(analytics?.bounceRate, 50); // Placeholder for previous bounce rate
-  const avgSessionDurationChange = getChange(analytics?.avgSessionDuration, 150); // Placeholder for previous avg session duration
+  const stats = [
+    {
+      title: "Total Page Views",
+      value: analytics?.totalViews?.toLocaleString() || "0",
+      change: getChange(todayStats.views, yesterdayStats.views),
+      icon: Eye,
+      color: "bg-blue-500",
+    },
+    {
+      title: "Unique Visitors",
+      value: analytics?.uniqueVisitors?.toLocaleString() || "0",
+      change: getChange(todayStats.visitors, yesterdayStats.visitors),
+      icon: Users,
+      color: "bg-purple-500",
+    },
+    {
+      title: "Bounce Rate",
+      value: `${analytics?.bounceRate || 0}%`,
+      change: getChange(yesterdayStats.bounceRate, todayStats.bounceRate), // Lower is better for bounce rate
+      icon: TrendingDown,
+      color: "bg-yellow-500",
+    },
+    {
+      title: "Avg. Session Duration",
+      value: analytics?.avgSessionDuration || "0m 0s",
+      change: getChange(
+        todayStats.avgSessionDurationSeconds,
+        yesterdayStats.avgSessionDurationSeconds,
+      ),
+      icon: Clock,
+      color: "bg-green-500",
+    },
+  ];
 
   if (loading) {
     return (
@@ -114,93 +159,32 @@ export default function DetailedAnalytics() {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white/5 border border-white/10 p-6 rounded-xl shadow-lg shadow-purple-500/5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-blue-500/20 text-blue-400 rounded-lg">
-              <Eye size={24} />
+        {stats.map((stat, index) => (
+          <div
+            key={index}
+            className="bg-white/5 border border-white/10 p-6 rounded-xl shadow-lg shadow-purple-500/5"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div
+                className={`p-3 ${stat.color}/20 text-${stat.color.split("-")[1]}-400 rounded-lg`}
+              >
+                <stat.icon size={24} />
+              </div>
+              <span
+                className={`text-xs font-medium px-2 py-1 rounded-full ${
+                  stat.change.isPositive
+                    ? "bg-green-500/20 text-green-400"
+                    : "bg-red-500/20 text-red-400"
+                }`}
+              >
+                {stat.change.isPositive ? "+" : "-"}
+                {stat.change.value}%
+              </span>
             </div>
-            <span
-              className={`text-xs font-medium px-2 py-1 rounded-full ${
-                viewsChange.isPositive
-                  ? "bg-green-500/20 text-green-400"
-                  : "bg-red-500/20 text-red-400"
-              }`}
-            >
-              {viewsChange.isPositive ? "+" : "-"}
-              {viewsChange.value}%
-            </span>
+            <h3 className="text-3xl font-bold text-white mb-1">{stat.value}</h3>
+            <p className="text-sm text-gray-400">{stat.title}</p>
           </div>
-          <h3 className="text-3xl font-bold text-white mb-1">
-            {analytics?.totalViews?.toLocaleString() || 0}
-          </h3>
-          <p className="text-sm text-gray-400">Total Views</p>
-        </div>
-
-        <div className="bg-white/5 border border-white/10 p-6 rounded-xl shadow-lg shadow-purple-500/5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-purple-500/20 text-purple-400 rounded-lg">
-              <Users size={24} />
-            </div>
-            <span
-              className={`text-xs font-medium px-2 py-1 rounded-full ${
-                visitorsChange.isPositive
-                  ? "bg-green-500/20 text-green-400"
-                  : "bg-red-500/20 text-red-400"
-              }`}
-            >
-              {visitorsChange.isPositive ? "+" : "-"}
-              {visitorsChange.value}%
-            </span>
-          </div>
-          <h3 className="text-3xl font-bold text-white mb-1">
-            {analytics?.uniqueVisitors?.toLocaleString() || 0}
-          </h3>
-          <p className="text-sm text-gray-400">Unique Visitors</p>
-        </div>
-
-        <div className="bg-white/5 border border-white/10 p-6 rounded-xl shadow-lg shadow-purple-500/5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-orange-500/20 text-orange-400 rounded-lg">
-              <TrendingUp size={24} />
-            </div>
-            <span
-              className={`text-xs font-medium px-2 py-1 rounded-full ${
-                bounceRateChange.isPositive
-                  ? "bg-green-500/20 text-green-400"
-                  : "bg-red-500/20 text-red-400"
-              }`}
-            >
-              {bounceRateChange.isPositive ? "+" : "-"}
-              {bounceRateChange.value}%
-            </span>
-          </div>
-          <h3 className="text-3xl font-bold text-white mb-1">
-            {analytics?.bounceRate || 0}%
-          </h3>
-          <p className="text-sm text-gray-400">Bounce Rate</p>
-        </div>
-
-        <div className="bg-white/5 border border-white/10 p-6 rounded-xl shadow-lg shadow-purple-500/5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-3 bg-indigo-500/20 text-indigo-400 rounded-lg">
-              <Clock size={24} />
-            </div>
-            <span
-              className={`text-xs font-medium px-2 py-1 rounded-full ${
-                avgSessionDurationChange.isPositive
-                  ? "bg-green-500/20 text-green-400"
-                  : "bg-red-500/20 text-red-400"
-              }`}
-            >
-              {avgSessionDurationChange.isPositive ? "+" : "-"}
-              {avgSessionDurationChange.value}%
-            </span>
-          </div>
-          <h3 className="text-3xl font-bold text-white mb-1">
-            {analytics?.avgSessionDuration || "0m 0s"}
-          </h3>
-          <p className="text-sm text-gray-400">Avg. Duration</p>
-        </div>
+        ))}
       </div>
 
       {/* Traffic Line Chart */}
