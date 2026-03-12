@@ -19,7 +19,7 @@
   },
   {
     "id": 2,
-    "title": "Rolfsq Investment Platform",
+    "title": "Voltsq Investment Platform",
     "category": "Web Design",
     "description": "A modern real estate and investment platform that showcases premium properties, projected returns, and clear calls-to-action for serious investors. Designed to build trust, highlight key figures at a glance, and make it effortless for users to explore opportunities and get in touch from any device.",
     "tags": [
@@ -27,10 +27,10 @@
       "Shopify",
       "Tailwind CSS"
     ],
-    "image": "bg-gradient-to-br from-blue-600 to-cyan-500",
+    "image": "/voltsq.png",
     "icon": "Globe",
-    "link": "https://rolfsq-bmel.vercel.app/",
-    "imageSrc": "/Rolfsq.png",
+    "link": "https://voltsq.vercel.app/",
+    "imageSrc": "/voltsq.png",
     "github": "#",
     "status": "Published",
     "date": "2024-02-15"
@@ -83,5 +83,18 @@
     "date": "2026-03-08",
     "icon": "Globe",
     "imageSrc": "/headerwhite.png"
+  },
+  {
+    "id": 7,
+    "title": "Dream Homes",
+    "category": "Web Design",
+    "description": "real estate",
+    "link": "https://dream-homes-smoky.vercel.app/",
+    "image": "/realState.png",
+    "tags": [],
+    "status": "Published",
+    "date": "2026-03-12",
+    "icon": "Globe",
+    "imageSrc": "/realState.png"
   }
 ]

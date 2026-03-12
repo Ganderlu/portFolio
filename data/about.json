@@ -1,7 +1,7 @@
 {
   "tagline": "Full Stack Developer specializing in React, Next.js, and Node.js. Passionate about building high-performance web applications and design systems.",
   "story": "My journey into the world of digital creation began over 8 years ago. What started as a curiosity for how things work on the web quickly turned into a full-blown passion for design and development. I was fascinated by the intersection of logic and creativity—how lines of code could translate into beautiful, interactive experiences.\n\nOver the years, I've had the privilege of working with a diverse range of clients, from ambitious startups to established enterprises. I've worn many hats: UI/UX Designer, Frontend Developer, and Product Strategist. This multidisciplinary background allows me to bridge the gap between design and engineering, ensuring that the final product not only looks stunning but functions flawlessly.\n\nI believe that great design is not just about aesthetics; it's about solving problems. My approach is user-centric, data-driven, and always focused on delivering value. Whether I'm crafting a brand identity or architecting a complex web application, I bring the same level of dedication and attention to detail to every project.",
-  "resumeUrl": "/resume.pdf",
+  "resumeUrl": "/resume.docx",
   "experience": [
     {
       "role": "Full Stack Developer",
@@ -40,12 +40,26 @@
   "technicalSkills": [
     {
       "category": "Frontend Development",
-      "skills": ["React", "Next.js", "TypeScript", "Tailwind CSS", "Redux", "Framer Motion"],
+      "skills": [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Redux",
+        "Framer Motion"
+      ],
       "icon": "Code"
     },
     {
       "category": "Backend & Tools",
-      "skills": ["Node.js", "Express", "PostgreSQL", "MongoDB", "Firebase", "Docker"],
+      "skills": [
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "MongoDB",
+        "Firebase",
+        "Docker"
+      ],
       "icon": "Database"
     }
   ]

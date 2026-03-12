@@ -54,12 +54,8 @@ export default function SocialLinks({ className = "" }: SocialLinksProps) {
     fetchSettings();
   }, []);
 
-  if (loading) {
-    return <div className={className}>Loading...</div>;
-  }
-
-  if (!settings) {
-    return <div className={className}>Failed to load social links.</div>;
+  if (loading || !settings) {
+    return <div className={`${className} min-h-[24px]`}></div>;
   }
 
   return (

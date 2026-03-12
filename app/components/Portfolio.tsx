@@ -9,9 +9,11 @@ interface Project {
   id: number;
   title: string;
   category: string;
+  description: string;
   image: string;
   link?: string;
   imageSrc?: string;
+  tags?: string[];
 }
 
 export default function Portfolio({ data }: { data?: Project[] }) {
@@ -19,6 +21,7 @@ export default function Portfolio({ data }: { data?: Project[] }) {
   const [projects, setProjects] = useState<Project[]>(data || []);
   const [loading, setLoading] = useState(!data);
   const [activeTab, setActiveTab] = useState("All");
+  const [showTechStack, setShowTechStack] = useState<number | null>(null);
 
   useEffect(() => {
     if (!data) {
@@ -128,7 +131,7 @@ export default function Portfolio({ data }: { data?: Project[] }) {
                     src={project.imageSrc}
                     alt={project.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 ) : (
                   <>
@@ -138,6 +141,27 @@ export default function Portfolio({ data }: { data?: Project[] }) {
                     </div>
                   </>
                 )}
+
+                {/* Hover Overlay with Description */}
+                <div className="absolute inset-0 bg-purple-900/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                  <p className="text-white text-sm leading-relaxed mb-4">
+                    {project.description}
+                  </p>
+                  <a
+                    href={project.link || "#"}
+                    target={
+                      project.link?.startsWith("http") ? "_blank" : undefined
+                    }
+                    rel={
+                      project.link?.startsWith("http")
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    className="px-4 py-2 bg-white text-purple-900 rounded-lg text-xs font-bold hover:bg-blue-400 hover:text-white transition-colors"
+                  >
+                    Explore Project
+                  </a>
+                </div>
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-white mb-1">
@@ -145,23 +169,36 @@ export default function Portfolio({ data }: { data?: Project[] }) {
                 </h3>
                 <p className="text-white/70 text-sm mb-4">{project.category}</p>
 
-                <a
-                  href={project.link || "#"}
-                  target={
-                    project.link?.startsWith("http") ? "_blank" : undefined
-                  }
-                  rel={
-                    project.link?.startsWith("http")
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
+                <button
+                  onClick={() => setShowTechStack(project.id)}
                   className="inline-flex items-center gap-1 text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors group-hover:translate-x-1 duration-300"
-                  onClick={() =>
-                    trackEvent("Project Viewed", { project: project.title })
-                  }
                 >
-                  View Details <span>&rarr;</span>
-                </a>
+                  View Tech Stack <span>&rarr;</span>
+                </button>
+
+                {showTechStack === project.id && (
+                  <div className="mt-4 p-4 bg-white/5 rounded-lg">
+                    <h4 className="font-bold text-white text-xs mb-2">
+                      Tech Stack:
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags?.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2 py-1 bg-purple-600/20 text-purple-300 text-xs rounded"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => setShowTechStack(null)}
+                      className="text-red-400 text-xs mt-3"
+                    >
+                      Close
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           ))}

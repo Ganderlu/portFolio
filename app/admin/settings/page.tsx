@@ -1,7 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Save, RefreshCw, Settings, Globe, Mail, Github, Linkedin, Twitter } from "lucide-react";
+import {
+  Save,
+  RefreshCw,
+  Settings,
+  Globe,
+  Mail,
+  Github,
+  Linkedin,
+  Twitter,
+  Facebook,
+  MessageCircle,
+  Link as LinkIcon,
+} from "lucide-react";
 
 export default function SettingsAdmin() {
   const [loading, setLoading] = useState(false);
@@ -12,6 +24,9 @@ export default function SettingsAdmin() {
     github: "",
     linkedin: "",
     twitter: "",
+    facebook: "",
+    whatsapp: "",
+    letsconnet: "",
   });
 
   useEffect(() => {
@@ -33,9 +48,7 @@ export default function SettingsAdmin() {
     fetchData();
   }, []);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -104,7 +117,7 @@ export default function SettingsAdmin() {
             <Globe size={20} className="text-blue-400" />
             General Information
           </h2>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-2">
               Site Name
@@ -124,7 +137,10 @@ export default function SettingsAdmin() {
               Contact Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+              <Mail
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                size={18}
+              />
               <input
                 type="email"
                 name="email"
@@ -150,7 +166,10 @@ export default function SettingsAdmin() {
                 GitHub URL
               </label>
               <div className="relative">
-                <Github className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                <Github
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  size={18}
+                />
                 <input
                   type="text"
                   name="github"
@@ -167,7 +186,10 @@ export default function SettingsAdmin() {
                 LinkedIn URL
               </label>
               <div className="relative">
-                <Linkedin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                <Linkedin
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  size={18}
+                />
                 <input
                   type="text"
                   name="linkedin"
@@ -184,13 +206,76 @@ export default function SettingsAdmin() {
                 Twitter URL
               </label>
               <div className="relative">
-                <Twitter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+                <Twitter
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  size={18}
+                />
                 <input
                   type="text"
                   name="twitter"
                   value={formData.twitter}
                   onChange={handleChange}
                   placeholder="https://twitter.com/yourusername"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">
+                Facebook URL
+              </label>
+              <div className="relative">
+                <Facebook
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  name="facebook"
+                  value={formData.facebook}
+                  onChange={handleChange}
+                  placeholder="https://facebook.com/yourusername"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">
+                WhatsApp Number
+              </label>
+              <div className="relative">
+                <MessageCircle
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  name="whatsapp"
+                  value={formData.whatsapp}
+                  onChange={handleChange}
+                  placeholder="+1234567890"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">
+                Let's Connect Link
+              </label>
+              <div className="relative">
+                <LinkIcon
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  name="letsconnet"
+                  value={formData.letsconnet}
+                  onChange={handleChange}
+                  placeholder="https://cal.com/..."
                   className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
                 />
               </div>

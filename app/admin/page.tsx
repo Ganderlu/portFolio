@@ -123,6 +123,17 @@ export default function AdminDashboard() {
     }
   };
 
+  const formatTimestamp = (timestamp: any) => {
+    if (!timestamp) return "Unknown date";
+    if (typeof timestamp.toDate === "function") {
+      return timestamp.toDate().toLocaleString();
+    }
+    if (timestamp.seconds) {
+      return new Date(timestamp.seconds * 1000).toLocaleString();
+    }
+    return new Date(timestamp).toLocaleString();
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
@@ -239,7 +250,7 @@ export default function AdminDashboard() {
                         {notif.message}
                       </p>
                       <p className="text-xs text-gray-500 mt-1">
-                        {new Date(notif.timestamp?.toDate()).toLocaleString()}
+                        {formatTimestamp(notif.timestamp)}
                       </p>
                     </div>
                   ))
